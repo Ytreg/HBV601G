@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1055699772820",
+    "firebase_url": "https://bioappid-dfa27.firebaseio.com",
+    "project_id": "bioappid-dfa27",
+    "storage_bucket": "bioappid-dfa27.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1055699772820:android:0a4d5d1cd8919a11",
+        "android_client_info": {
+          "package_name": "com.example.gudmundurorripalsson.hvaderibio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1055699772820-gr7oq9nusismkvnc03bvk12u5cdnacb8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gudmundurorripalsson.hvaderibio",
+            "certificate_hash": "b629b15d9d80d2128d9bb9bda3cc34b549f33b6a"
+          }
+        },
+        {
+          "client_id": "1055699772820-bimeo5355ks9uajbtvd386hvhdpvbae9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGBVSrXpf_CsBJLV5bu_OaGU2INa_Hk4U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1055699772820-bimeo5355ks9uajbtvd386hvhdpvbae9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
