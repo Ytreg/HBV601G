@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void getMovies() {
         //String apiKey = "a6bcdd96c91df987a3833e64d05b5987";
-        String forecastUrl = "http://api.biomynd.is/authenticate";
+        String forecastUrl = "http://api.kvikmyndir.is/authenticate";
                 //apiKey +"/"+ lat +","+ lon;
 
         if(isNetworkAvailable()) {
