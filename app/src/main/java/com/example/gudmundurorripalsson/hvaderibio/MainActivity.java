@@ -28,26 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         private TextView mTextMessage;
         private ListView listView ;
-        private Button loginButton;
         private BottomNavigationView navigation;
 
-        private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-                = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        return true;
-                    case R.id.navigation_account:
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                        return true;
-                    case R.id.navigation_settings:
-                        return true;
-                }
-                return false;
-            }
-        };
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -56,15 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
             // Get ListView object from xml
             listView = findViewById(R.id.listiMyndir);
-            loginButton = findViewById(R.id.loginButton);
 
 
-            loginButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                }
-            });
 
                     String[] myndir = new String[] {
                     "Mynd1",
@@ -84,8 +59,8 @@ public class MainActivity extends AppCompatActivity {
             // Assign adapter to ListView
             listView.setAdapter(adapter);
 
-            mTextMessage = (TextView) findViewById(R.id.message);
-            navigation = (BottomNavigationView) findViewById(R.id.navigation);
+            mTextMessage = findViewById(R.id.message);
+            navigation = findViewById(R.id.navigation);
             navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
             listView.setOnItemClickListener(new OnItemClickListener() {
@@ -108,14 +83,28 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             });
-            final TextView textView = (TextView) findViewById(R.id.textView);
-            final Button button = (Button) findViewById(R.id.button);
 
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("https://bioappid.herokuapp.com/")
-                    .build();
+
 
 
         }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    return true;
+                case R.id.navigation_account:
+                    startActivity(new Intent(MainActivity.this, UserActivity.class));
+                    return true;
+                case R.id.navigation_settings:
+                    return true;
+            }
+            return false;
+        }
+    };
 
 }
