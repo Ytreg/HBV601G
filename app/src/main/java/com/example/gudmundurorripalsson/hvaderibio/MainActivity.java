@@ -6,15 +6,33 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.content.Context;
+import org.json.JSONException;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.FormBody;
+import okhttp3.RequestBody;
 
 import java.io.IOException;
 
@@ -30,8 +48,28 @@ public class MainActivity extends AppCompatActivity {
         private ListView listView ;
         private BottomNavigationView navigation;
 
+        public static final String TAG = MainActivity.class.getSimpleName();
+        private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+                = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
-        @Override
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.navigation_home:
+                        mTextMessage.setText(R.string.title_home);
+                        return true;
+                    case R.id.navigation_dashboard:
+                        mTextMessage.setText(R.string.title_dashboard);
+                        return true;
+                    case R.id.navigation_notifications:
+                        mTextMessage.setText(R.string.title_notifications);
+                        return true;
+                }
+                return false;
+            }
+        };
+
+    @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
@@ -51,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     "Mynd7",
                     "Mynd8"
             };
+
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                     android.R.layout.simple_list_item_1, android.R.id.text1, myndir);
@@ -87,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+
         }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -106,5 +146,86 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
+
+            getMovies();
+    }
+
+    private void getMovies() {
+        //String apiKey = "a6bcdd96c91df987a3833e64d05b5987";
+        String forecastUrl = "http://api.kvikmyndir.is/authenticate";
+                //apiKey +"/"+ lat +","+ lon;
+
+        if(isNetworkAvailable()) {
+            //toggleRefresh();
+            OkHttpClient client = new OkHttpClient();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("username", "Gummi")
+                    .add("password", "Gummi1234")
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(forecastUrl)
+                    .post(formBody)
+                    .build();
+
+            Log.v(TAG, request.toString());
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //toggleRefresh();
+                        }
+                    });
+                    //alertUserAboutError();
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //toggleRefresh();
+                        }
+                    });
+                    try {
+                        String jsonData = response.body().string();
+                        Log.v(TAG, jsonData);
+                        if (response.isSuccessful()) {
+                           // mForecast = parseForecastDetails(jsonData);
+                            //We are not on main thread
+                            //Need to call this method and pass a new Runnable thread
+                            //to be able to update the view.
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //Call the method to update the view.
+                                    //updateDisplay();
+                                }
+                            });
+                        } else {
+                            //alertUserAboutError();
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, "Exception caught: ", e);
+                    }
+                }
+            });
+        }
+        else {
+           // Toast.makeText(this, R.string.network_unavailable_message, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
+        return isAvailable;
+    }
+
 
 }
