@@ -37,97 +37,73 @@ import okhttp3.RequestBody;
 import java.io.IOException;
 
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+
 
 public class MainActivity extends AppCompatActivity {
 
-        private TextView mTextMessage;
-        private ListView listView ;
-        private BottomNavigationView navigation;
+    private TextView mTextMessage;
+    private ListView listView;
+    private BottomNavigationView navigation;
 
-        public static final String TAG = MainActivity.class.getSimpleName();
-        private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-                = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    public static final String TAG = MainActivity.class.getSimpleName();
 
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_home:
-                        mTextMessage.setText(R.string.title_home);
-                        return true;
-                    case R.id.navigation_dashboard:
-                        mTextMessage.setText(R.string.title_dashboard);
-                        return true;
-                    case R.id.navigation_notifications:
-                        mTextMessage.setText(R.string.title_notifications);
-                        return true;
-                }
-                return false;
-            }
-        };
 
     @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_main);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-            // Get ListView object from xml
-            listView = findViewById(R.id.listiMyndir);
-
-
-
-                    String[] myndir = new String[] {
-                    "Mynd1",
-                    "Mynd2",
-                    "Mynd3",
-                    "Mynd4",
-                    "Mynd5",
-                    "Mynd6",
-                    "Mynd7",
-                    "Mynd8"
-            };
+        // Get ListView object from xml
+        listView = findViewById(R.id.listiMyndir);
 
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_list_item_1, android.R.id.text1, myndir);
+        String[] myndir = new String[]{
+                "Mynd1",
+                "Mynd2",
+                "Mynd3",
+                "Mynd4",
+                "Mynd5",
+                "Mynd6",
+                "Mynd7",
+                "Mynd8"
+        };
+
+        getMovies();
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, myndir);
 
 
-            // Assign adapter to ListView
-            listView.setAdapter(adapter);
+        // Assign adapter to ListView
+        listView.setAdapter(adapter);
 
-            mTextMessage = findViewById(R.id.message);
-            navigation = findViewById(R.id.navigation);
-            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        mTextMessage = findViewById(R.id.message);
+        navigation = findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-            listView.setOnItemClickListener(new OnItemClickListener() {
+        listView.setOnItemClickListener(new OnItemClickListener() {
 
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
 
-                    // ListView Clicked item index
-                    int itemPosition     = position;
+                // ListView Clicked item index
+                int itemPosition = position;
 
-                    // ListView Clicked item value
-                    String  itemValue    = (String) listView.getItemAtPosition(position);
+                // ListView Clicked item value
+                String itemValue = (String) listView.getItemAtPosition(position);
 
-                    // Show Alert
-                    Toast.makeText(getApplicationContext(),
-                            "Position :"+itemPosition+"  ListItem : " +itemValue , Toast.LENGTH_LONG)
-                            .show();
+                // Show Alert
+                Toast.makeText(getApplicationContext(),
+                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
+                        .show();
 
-                }
+            }
 
-            });
-
-
+        });
 
 
-
-        }
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -147,15 +123,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-            getMovies();
-    }
+
+
 
     private void getMovies() {
         //String apiKey = "a6bcdd96c91df987a3833e64d05b5987";
         String forecastUrl = "http://api.kvikmyndir.is/authenticate";
-                //apiKey +"/"+ lat +","+ lon;
+        //apiKey +"/"+ lat +","+ lon;
 
-        if(isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
             //toggleRefresh();
             OkHttpClient client = new OkHttpClient();
             RequestBody formBody = new FormBody.Builder()
@@ -194,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                           // mForecast = parseForecastDetails(jsonData);
+                            // mForecast = parseForecastDetails(jsonData);
                             //We are not on main thread
                             //Need to call this method and pass a new Runnable thread
                             //to be able to update the view.
@@ -213,19 +189,20 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             });
-        }
-        else {
-           // Toast.makeText(this, R.string.network_unavailable_message, Toast.LENGTH_LONG).show();
+        } else {
+            // Toast.makeText(this, R.string.network_unavailable_message, Toast.LENGTH_LONG).show();
         }
     }
+
+
 
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
         boolean isAvailable = false;
-        if(networkInfo!= null && networkInfo.isConnected()) isAvailable = true;
+        if (networkInfo != null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
     }
-
-
 }
+
+
