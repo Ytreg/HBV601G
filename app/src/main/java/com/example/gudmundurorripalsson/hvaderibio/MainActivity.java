@@ -22,6 +22,8 @@ import android.widget.Toast;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.content.Context;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -127,21 +129,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void getMovies() {
-        //String apiKey = "a6bcdd96c91df987a3833e64d05b5987";
-        String forecastUrl = "http://api.kvikmyndir.is/authenticate";
-        //apiKey +"/"+ lat +","+ lon;
+        String url = "http://bio-serverinn.herokuapp.com/";
 
         if (isNetworkAvailable()) {
             //toggleRefresh();
             OkHttpClient client = new OkHttpClient();
-            RequestBody formBody = new FormBody.Builder()
-                    .add("username", "Gummi")
-                    .add("password", "Gummi1234")
-                    .build();
 
             Request request = new Request.Builder()
-                    .url(forecastUrl)
-                    .post(formBody)
+                    .url(url)
                     .build();
 
             Log.v(TAG, request.toString());
@@ -167,8 +162,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     try {
-                        String jsonData = response.body().string();
-                        Log.v(TAG, jsonData);
+                        JSONArray jsonData = new JSONArray(response.body().string());
+                        Log.v(TAG, jsonData.getJSONObject(0).getString("title"));
                         if (response.isSuccessful()) {
                             // mForecast = parseForecastDetails(jsonData);
                             //We are not on main thread
@@ -185,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
                             //alertUserAboutError();
                         }
                     } catch (IOException e) {
+                        Log.e(TAG, "Exception caught: ", e);
+                    } catch (JSONException e) {
                         Log.e(TAG, "Exception caught: ", e);
                     }
                 }
