@@ -22,9 +22,11 @@ import android.widget.Toast;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.content.Context;
+import com.example.gudmundurorripalsson.hvaderibio.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -162,18 +164,16 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     try {
-                        JSONArray jsonData = new JSONArray(response.body().string());
-                        Log.v(TAG, jsonData.getJSONObject(0).getString("title"));
+                        final JSONArray jsonData = new JSONArray(response.body().string());
                         if (response.isSuccessful()) {
-                            // mForecast = parseForecastDetails(jsonData);
                             //We are not on main thread
                             //Need to call this method and pass a new Runnable thread
                             //to be able to update the view.
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    updateMovieList(jsonData);
                                     //Call the method to update the view.
-                                    //updateDisplay();
                                 }
                             });
                         } else {
@@ -199,6 +199,42 @@ public class MainActivity extends AppCompatActivity {
         boolean isAvailable = false;
         if (networkInfo != null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
+    }
+
+    private void updateMovieList(JSONArray json) {
+        setContentView(R.layout.activity_main);
+        listView = findViewById(R.id.listiMyndir);
+
+        Movie[] movies = new Movie[json.length()];
+        for (int i = 0; i < json.length(); i++) {
+            try {
+                JSONObject j = json.getJSONObject(i);
+                Movie movie = new Movie(
+                        j.getInt("id"),
+                        j.getString("title"),
+                        j.getJSONObject("ratings").getString("imdb"),
+                        j.getString("poster")
+                );
+                movies[i] = movie;
+            } catch (JSONException e) {
+                Log.e(TAG, "Exception caught: ", e);
+            }
+        }
+
+        String[] titles = new String[movies.length];
+        for (int i = 0; i < movies.length; i++) {
+            titles[i] = movies[i].getTitle();
+            if (movies[i].getImdb() != "null") {
+                titles[i] += " " + movies[i].getImdb();
+            }
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, titles);
+
+
+        // Assign adapter to ListView
+        listView.setAdapter(adapter);
     }
 }
 

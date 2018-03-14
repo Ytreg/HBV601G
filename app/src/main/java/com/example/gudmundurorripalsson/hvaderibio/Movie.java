@@ -12,10 +12,10 @@ public class Movie {
     public String poster;
 
     public Movie(int id, String title, String imdb, String poster){
-        id = this.id;
-        title = this.title;
-        imdb = this.imdb;
-        poster = this.poster;
+        this.id = id;
+        this.title = title;
+        this.imdb = imdb;
+        this.poster = poster;
     }
 
     public int getId(){
