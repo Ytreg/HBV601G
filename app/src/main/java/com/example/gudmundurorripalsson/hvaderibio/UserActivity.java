@@ -38,10 +38,13 @@ public class UserActivity extends AppCompatActivity implements
         firebaseAuth = FirebaseAuth.getInstance();
         setupUIViews();
         setLoginView();
+
+        // Set this as selected in navigation bar
+        navigation.getMenu().getItem(1).setChecked(true);
+
         findViewById(R.id.loginButton).setOnClickListener(this);
         findViewById(R.id.signupRedirection).setOnClickListener(this);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
     }
 
 

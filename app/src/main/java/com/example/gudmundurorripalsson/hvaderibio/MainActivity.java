@@ -60,53 +60,11 @@ public class MainActivity extends AppCompatActivity {
         // Get ListView object from xml
         listView = findViewById(R.id.listiMyndir);
 
-
-        String[] myndir = new String[]{
-                "Mynd1",
-                "Mynd2",
-                "Mynd3",
-                "Mynd4",
-                "Mynd5",
-                "Mynd6",
-                "Mynd7",
-                "Mynd8"
-        };
-
         getMovies();
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, myndir);
-
-
-        // Assign adapter to ListView
-        listView.setAdapter(adapter);
 
         mTextMessage = findViewById(R.id.message);
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        listView.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // ListView Clicked item index
-                int itemPosition = position;
-
-                // ListView Clicked item value
-                String itemValue = (String) listView.getItemAtPosition(position);
-
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position :" + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
-                        .show();
-
-            }
-
-        });
-
-
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -202,7 +160,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateMovieList(JSONArray json) {
-        setContentView(R.layout.activity_main);
         listView = findViewById(R.id.listiMyndir);
 
         Movie[] movies = new Movie[json.length()];
@@ -235,6 +192,27 @@ public class MainActivity extends AppCompatActivity {
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // ListView Clicked item index
+                int itemPosition = position;
+
+                // ListView Clicked item value
+                String itemValue = (String) listView.getItemAtPosition(position);
+
+                // Show Alert
+                Toast.makeText(getApplicationContext(),
+                        "Position : " + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
+                        .show();
+
+            }
+
+        });
     }
 }
 
