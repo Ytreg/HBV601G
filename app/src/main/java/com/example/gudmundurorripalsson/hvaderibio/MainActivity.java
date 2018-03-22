@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,9 +24,19 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.content.Context;
 import org.json.JSONException;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+
+import com.example.gudmundurorripalsson.hvaderibio.Fragments.AccountFragment;
+import com.example.gudmundurorripalsson.hvaderibio.Fragments.HomeFragment;
+import com.example.gudmundurorripalsson.hvaderibio.Fragments.SettingsFragment;
 
 import java.io.IOException;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -44,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextMessage;
     private ListView listView;
     private BottomNavigationView navigation;
-
+    private ActionBar toolbar;
     public static final String TAG = MainActivity.class.getSimpleName();
 
 
@@ -76,7 +87,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Assign adapter to ListView
         listView.setAdapter(adapter);
-
+        toolbar = getSupportActionBar();
+        toolbar.setTitle("Home");
+        loadFragment(new HomeFragment());
         mTextMessage = findViewById(R.id.message);
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -110,13 +123,22 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    toolbar.setTitle("Home");
+                    fragment = new HomeFragment();
+                    loadFragment(fragment);
                     return true;
                 case R.id.navigation_account:
-                    startActivity(new Intent(MainActivity.this, UserActivity.class));
+                    toolbar.setTitle("Home");
+                    fragment = new AccountFragment();
+                    loadFragment(fragment);
                     return true;
                 case R.id.navigation_settings:
+                    toolbar.setTitle("Settings");
+                    fragment = new SettingsFragment();
+                    loadFragment(fragment);
                     return true;
             }
             return false;
@@ -125,6 +147,13 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    private void loadFragment(Fragment fragment) {
+        // load fragment
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
     private void getMovies() {
         //String apiKey = "a6bcdd96c91df987a3833e64d05b5987";
