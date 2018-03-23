@@ -22,7 +22,6 @@ import android.widget.Toast;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.content.Context;
-import com.example.gudmundurorripalsson.hvaderibio.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_account:
                     startActivity(new Intent(MainActivity.this, UserActivity.class));
+                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     return true;
                 case R.id.navigation_settings:
                     return true;

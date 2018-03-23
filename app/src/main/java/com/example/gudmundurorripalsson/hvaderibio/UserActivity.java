@@ -112,6 +112,7 @@ public class UserActivity extends AppCompatActivity implements
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     startActivity(new Intent(UserActivity.this, MainActivity.class));
+                    overridePendingTransition(R.anim.left_in, R.anim.right_out);
                     return true;
                 case R.id.navigation_account:
                     return true;
