@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mTextMessage;
     private ListView listView;
     private BottomNavigationView navigation;
+    private GridView gridView;
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -56,14 +58,38 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Get ListView object from xml
-        listView = findViewById(R.id.listiMyndir);
-
-        getMovies();
+        //getMovies();
 
         mTextMessage = findViewById(R.id.message);
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+        gridView = (GridView) findViewById(R.id.simpleGridView);
+        int[] images = {R.drawable.boi, R.drawable.boi, R.drawable.boi};
+        String[] ratings = {"boi", "iob", "afdafda"};
+        String[] titles = {"bbb", "aaa", "smash"};
+        GridAdapter gridAdapter = new GridAdapter(this, images, titles, ratings);
+        gridView.setAdapter(gridAdapter);
+
+        gridView.setOnItemClickListener(new OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                // ListView Clicked item index
+                int itemPosition = position;
+
+                // ListView Clicked item value
+                String itemValue = (String) parent.getItemAtPosition(position);
+                // Show Alert
+                Toast.makeText(getApplicationContext(),
+                        "Position : " + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
+                        .show();
+            }
+
+        });
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -160,7 +186,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateMovieList(JSONArray json) {
-        listView = findViewById(R.id.listiMyndir);
+        /*
+        gridView = (GridView) findViewById(R.id.simpleGridView);
+        int[] images = {R.drawable.boi, R.drawable.boi};
+        String[] ratings = {"boi", "iob"};
+        String[] titles = {"bbb", "aaa"};
+        GridAdapter gridAdapter = new GridAdapter(this, images, titles, ratings);
+        gridView.setAdapter(gridAdapter);
+        */
 
         Movie[] movies = new Movie[json.length()];
         for (int i = 0; i < json.length(); i++) {
@@ -193,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         // Assign adapter to ListView
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new OnItemClickListener() {
+        gridView.setOnItemClickListener(new OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -203,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                 int itemPosition = position;
 
                 // ListView Clicked item value
-                String itemValue = (String) listView.getItemAtPosition(position);
+                String itemValue = (String) gridView.getItemAtPosition(position);
 
                 // Show Alert
                 Toast.makeText(getApplicationContext(),
@@ -215,5 +248,3 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 }
-
-
