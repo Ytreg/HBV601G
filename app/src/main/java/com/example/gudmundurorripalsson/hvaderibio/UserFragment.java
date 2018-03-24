@@ -1,5 +1,6 @@
 package com.example.gudmundurorripalsson.hvaderibio;
 
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -10,8 +11,10 @@ import android.transition.Slide;
 import android.transition.Transition;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,45 +26,31 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class UserActivity extends AppCompatActivity implements
+import java.util.concurrent.Executor;
+
+public class UserFragment extends Fragment implements
         View.OnClickListener {
 
 
-    private static final String TAG = "UserActivity";
+    private static final String TAG = "UserFragment";
     private EditText username, email, password, password2;
     private TextView signupRedirection, info;
     private Button loginButton;
     private FirebaseAuth firebaseAuth;
-    private BottomNavigationView navigation;
     private Boolean loginState = true;
+    private View mView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_user, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
         setupUIViews();
         setLoginView();
 
-        // Set this as selected in navigation bar
-        navigation.getMenu().getItem(1).setChecked(true);
-
-        findViewById(R.id.loginButton).setOnClickListener(this);
-        findViewById(R.id.signupRedirection).setOnClickListener(this);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    // Remove inter-activity transition to avoid screen tossing on tapping bottom navigation items
-    @Override
-    public void onPause() {
-        super.onPause();
-        overridePendingTransition(0, 0);
+        mView.findViewById(R.id.loginButton).setOnClickListener(this);
+        mView.findViewById(R.id.signupRedirection).setOnClickListener(this);
+        return mView;
     }
 
 
@@ -110,41 +99,20 @@ public class UserActivity extends AppCompatActivity implements
     }
 
     private void setupUIViews() {
-        username = (EditText) findViewById(R.id.username);
-        email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
-        password2 = (EditText) findViewById(R.id.password2);
-        info = findViewById(R.id.info);
-        loginButton = findViewById(R.id.loginButton);
-        signupRedirection = findViewById(R.id.signupRedirection);
-        navigation = findViewById(R.id.navigation);
+        username = (EditText) mView.findViewById(R.id.username);
+        email = (EditText) mView.findViewById(R.id.email);
+        password = (EditText) mView.findViewById(R.id.password);
+        password2 = (EditText) mView.findViewById(R.id.password2);
+        info = mView.findViewById(R.id.info);
+        loginButton = mView.findViewById(R.id.loginButton);
+        signupRedirection = mView.findViewById(R.id.signupRedirection);
     }
-
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    startActivity(new Intent(UserActivity.this, MainActivity.class));
-                    //overridePendingTransition(R.anim.left_in, R.anim.right_out);
-                    return true;
-                case R.id.navigation_account:
-                    return true;
-                case R.id.navigation_settings:
-                    return true;
-            }
-            return false;
-        }
-    };
 
     private void signIn(String email, String password) {
         Log.d(TAG, "signIn:" + email);
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -155,7 +123,7 @@ public class UserActivity extends AppCompatActivity implements
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(UserActivity.this, "Login failed.",
+                            Toast.makeText(getContext(), "Login failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -168,7 +136,7 @@ public class UserActivity extends AppCompatActivity implements
         ;
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -179,7 +147,7 @@ public class UserActivity extends AppCompatActivity implements
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(UserActivity.this, "Authentication failed.",
+                            Toast.makeText(getContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -225,9 +193,9 @@ public class UserActivity extends AppCompatActivity implements
         String password2String = password2.getText().toString();
         String emailString = email.getText().toString();
         if(usernameString.isEmpty() || passwordString.isEmpty() || password2String.isEmpty() || emailString.isEmpty()){
-            Toast.makeText(this, "Please enter all the details", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Please enter all the details", Toast.LENGTH_LONG).show();
         } else if(!passwordString.equals(password2String)){
-            Toast.makeText(this, "The passwords have to match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "The passwords have to match", Toast.LENGTH_SHORT).show();
         } else{
             result = true;
         }
@@ -239,7 +207,7 @@ public class UserActivity extends AppCompatActivity implements
         String username = email.getText().toString();
         String userPassword = password.getText().toString();
         if(username.isEmpty() || userPassword.isEmpty()){
-            Toast.makeText(this, "Please enter all the details", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Please enter all the details", Toast.LENGTH_LONG).show();
         } else{
             result = true;
         }

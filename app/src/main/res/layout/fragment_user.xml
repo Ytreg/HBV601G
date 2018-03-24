@@ -4,19 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gudmundurorripalsson.hvaderibio.UserActivity">
-
-    <android.support.design.widget.BottomNavigationView
-    android:id="@+id/navigation"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:background="?android:attr/windowBackground"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:menu="@menu/navigation"
-    app:itemIconTint="@drawable/nav_item_color_state"
-    app:itemTextColor="@drawable/nav_item_color_state"/>
+    tools:context="com.example.gudmundurorripalsson.hvaderibio.UserFragment">
 
     <EditText
         android:id="@+id/email"
