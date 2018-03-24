@@ -5,8 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.GridView;
@@ -67,8 +72,8 @@ public class MainActivity extends AppCompatActivity {
 
         gridView = (GridView) findViewById(R.id.simpleGridView);
         int[] images = {R.drawable.boi, R.drawable.boi, R.drawable.boi};
-        String[] ratings = {"boi", "iob", "afdafda"};
-        String[] titles = {"bbb", "aaa", "smash"};
+        String[] ratings = {"boi", "afdafda", "there"};
+        String[] titles = {"bbb", "smash", "whoa"};
         GridAdapter gridAdapter = new GridAdapter(this, images, titles, ratings);
         gridView.setAdapter(gridAdapter);
 
@@ -92,6 +97,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    // Remove inter-activity transition to avoid screen tossing on tapping bottom navigation items
+    @Override
+    public void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -102,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                     return true;
                 case R.id.navigation_account:
                     startActivity(new Intent(MainActivity.this, UserActivity.class));
-                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    //overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     return true;
                 case R.id.navigation_settings:
                     return true;

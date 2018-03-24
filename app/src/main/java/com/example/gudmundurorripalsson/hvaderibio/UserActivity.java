@@ -5,7 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.transition.Fade;
+import android.transition.Slide;
+import android.transition.Transition;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +39,7 @@ public class UserActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
+
         firebaseAuth = FirebaseAuth.getInstance();
         setupUIViews();
         setLoginView();
@@ -45,6 +50,18 @@ public class UserActivity extends AppCompatActivity implements
         findViewById(R.id.loginButton).setOnClickListener(this);
         findViewById(R.id.signupRedirection).setOnClickListener(this);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    // Remove inter-activity transition to avoid screen tossing on tapping bottom navigation items
+    @Override
+    public void onPause() {
+        super.onPause();
+        overridePendingTransition(0, 0);
     }
 
 
@@ -112,7 +129,7 @@ public class UserActivity extends AppCompatActivity implements
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     startActivity(new Intent(UserActivity.this, MainActivity.class));
-                    overridePendingTransition(R.anim.left_in, R.anim.right_out);
+                    //overridePendingTransition(R.anim.left_in, R.anim.right_out);
                     return true;
                 case R.id.navigation_account:
                     return true;
