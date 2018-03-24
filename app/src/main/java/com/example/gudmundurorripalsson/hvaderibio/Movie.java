@@ -6,10 +6,10 @@ package com.example.gudmundurorripalsson.hvaderibio;
 
 public class Movie {
 
-    public int id;
-    public String title;
-    public String imdb;
-    public String poster;
+    private int id;
+    private String title;
+    private String imdb;
+    private String poster;
 
     public Movie(int id, String title, String imdb, String poster){
         this.id = id;

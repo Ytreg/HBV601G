@@ -1,6 +1,7 @@
 package com.example.gudmundurorripalsson.hvaderibio;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -44,6 +45,8 @@ import okhttp3.FormBody;
 import okhttp3.RequestBody;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 import okhttp3.ResponseBody;
 
@@ -63,38 +66,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //getMovies();
+        getMovies();
 
         mTextMessage = findViewById(R.id.message);
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-        gridView = (GridView) findViewById(R.id.simpleGridView);
-        int[] images = {R.drawable.boi, R.drawable.boi, R.drawable.boi};
-        String[] ratings = {"boi", "afdafda", "there"};
-        String[] titles = {"bbb", "smash", "whoa"};
-        GridAdapter gridAdapter = new GridAdapter(this, images, titles, ratings);
-        gridView.setAdapter(gridAdapter);
-
-        gridView.setOnItemClickListener(new OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // ListView Clicked item index
-                int itemPosition = position;
-
-                // ListView Clicked item value
-                String itemValue = (String) parent.getItemAtPosition(position);
-                // Show Alert
-                Toast.makeText(getApplicationContext(),
-                        "Position : " + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
-                        .show();
-            }
-
-        });
     }
 
     @Override
@@ -203,14 +179,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateMovieList(JSONArray json) {
-        /*
-        gridView = (GridView) findViewById(R.id.simpleGridView);
-        int[] images = {R.drawable.boi, R.drawable.boi};
-        String[] ratings = {"boi", "iob"};
-        String[] titles = {"bbb", "aaa"};
-        GridAdapter gridAdapter = new GridAdapter(this, images, titles, ratings);
-        gridView.setAdapter(gridAdapter);
-        */
 
         Movie[] movies = new Movie[json.length()];
         for (int i = 0; i < json.length(); i++) {
@@ -228,20 +196,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        String[] posters = new String[movies.length];
         String[] titles = new String[movies.length];
-        for (int i = 0; i < movies.length; i++) {
+        String[] ratings = new String[movies.length];
+        for (int i = 0; i < movies.length; i++){
+            posters[i] = movies[i].getPoster();
             titles[i] = movies[i].getTitle();
-            if (movies[i].getImdb() != "null") {
-                titles[i] += " " + movies[i].getImdb();
-            }
+            ratings[i] = movies[i].getImdb();
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, titles);
-
-
-        // Assign adapter to ListView
-        listView.setAdapter(adapter);
+        gridView = (GridView) findViewById(R.id.simpleGridView);
+        GridAdapter gridAdapter = new GridAdapter(this, posters, titles, ratings);
+        gridView.setAdapter(gridAdapter);
 
         gridView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -253,13 +219,11 @@ public class MainActivity extends AppCompatActivity {
                 int itemPosition = position;
 
                 // ListView Clicked item value
-                String itemValue = (String) gridView.getItemAtPosition(position);
-
+                String itemValue = (String) parent.getItemAtPosition(position);
                 // Show Alert
                 Toast.makeText(getApplicationContext(),
                         "Position : " + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
                         .show();
-
             }
 
         });
