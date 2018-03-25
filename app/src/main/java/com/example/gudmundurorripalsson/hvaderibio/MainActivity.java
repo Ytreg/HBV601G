@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,10 +29,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
     private FrameLayout mMainFrame;
-    private TextView mTextMessage;
-    private ListView listView;
     private BottomNavigationView navigation;
-    private GridView gridView;
     private HomeFragment homeFragment;
     private UserFragment userFragment;
 
@@ -50,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
         getMovies();
 
-        mTextMessage = findViewById(R.id.message);
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -60,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(homeFragment);
                         return true;
                     case R.id.navigation_account:
+                        overridePendingTransition(0, 0);
                         setFragment(userFragment);
                         return true;
                     case R.id.navigation_settings:
@@ -82,8 +80,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        // Eyða öllu úr BackStack svo tilbaka örin gerir ekki neitt nema fara úr appinu
+        getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.main_frame, fragment);
         fragmentTransaction.commit();
     }

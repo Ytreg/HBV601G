@@ -55,9 +55,14 @@ public class GridAdapter extends BaseAdapter {
         }
         view = new View(context);
         view = inflater.inflate(R.layout.single_item, null);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
+        ImageView imageView = (ImageView) view.findViewById(R.id.movieImage);
+        imageView.setTransitionName(String.valueOf(position) + "_image");
         TextView titleView = (TextView) view.findViewById(R.id.title);
+        titleView.setTransitionName(String.valueOf(position) + "_title");
         TextView ratingView = (TextView) view.findViewById(R.id.rating);
+        ratingView.setTransitionName(String.valueOf(position) + "_rating");
+        ImageView starView = (ImageView) view.findViewById(R.id.star);
+        starView.setTransitionName(String.valueOf(position) + "_star");
         Picasso.with(context).load(images[position]).into(imageView);
         titleView.setText(titles[position]);
         ratingView.setText(ratings[position]);
