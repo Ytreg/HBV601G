@@ -44,20 +44,23 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
-        String json = getArguments().getString("json");
-        if (json != null) {
+        try {
+            String json = getArguments().getString("json");
             try {
                 JSONArray jsonArray = new JSONArray(json);
-                moviesArray = jsonArray;
                 updateMovieList(jsonArray);
             } catch (JSONException e) {
                 Log.e(TAG, "Exception caught: ", e);
             }
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Exception caught: ", e);
         }
         return mView;
     }
 
-    private void updateMovieList(JSONArray json) {
+    public void updateMovieList(JSONArray json) {
+
+        moviesArray = json;
 
         final Movie[] movies = new Movie[json.length()];
         for (int i = 0; i < json.length(); i++) {
@@ -87,6 +90,7 @@ public class HomeFragment extends Fragment {
         }
 
         gridView = (GridView) mView.findViewById(R.id.simpleGridView);
+        Log.v(TAG, gridView.toString());
         GridAdapter gridAdapter = new GridAdapter(getContext(), posters, titles, ratings);
         gridView.setAdapter(gridAdapter);
 

@@ -17,6 +17,9 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -47,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         userFragment = new UserFragment();
 
         getMovies();
+
+        setFragment(homeFragment);
 
         navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -130,10 +135,14 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    try {
+                                        homeFragment.updateMovieList(new JSONArray(jsonData));
+                                    } catch (JSONException e) {
+                                        Log.e(TAG, "Exception caught " + e);
+                                    }
                                     Bundle bundle = new Bundle();
                                     bundle.putString("json", jsonData.toString());
                                     homeFragment.setArguments(bundle);
-                                    setFragment(homeFragment);
                                     //Call the method to update the view.
                                 }
                             });
