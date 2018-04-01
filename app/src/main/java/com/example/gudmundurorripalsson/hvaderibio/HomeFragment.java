@@ -90,7 +90,6 @@ public class HomeFragment extends Fragment {
         }
 
         gridView = (GridView) mView.findViewById(R.id.simpleGridView);
-        Log.v(TAG, gridView.toString());
         GridAdapter gridAdapter = new GridAdapter(getContext(), posters, titles, ratings);
         gridView.setAdapter(gridAdapter);
 
@@ -123,32 +122,36 @@ public class HomeFragment extends Fragment {
 
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
 
-                // 1. Exit for Previous Fragment
-                /*
-                Fade exitFade = new Fade();
-                exitFade.setDuration(FADE_DEFAULT_TIME);
-                movieFragment.setExitTransition(exitFade);
-                */
 
-                // 2. Shared Elements Transition
-                TransitionSet enterTransitionSet = new TransitionSet();
-                enterTransitionSet.addTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.move));
-                enterTransitionSet.setDuration(MOVE_DEFAULT_TIME);
-                enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME);
-                movieFragment.setSharedElementEnterTransition(enterTransitionSet);
+                // Virkar bara fyrir API sem eru 21+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                // 3. Enter Transition for New Fragment
-                /*
-                Fade enterFade = new Fade();
-                enterFade.setStartDelay(FADE_DEFAULT_TIME);
-                enterFade.setDuration(FADE_DEFAULT_TIME);
-                movieFragment.setEnterTransition(enterFade);
-                */
+                    // 1. Exit for Previous Fragment
+                    Fade exitFade = new Fade();
+                    exitFade.setDuration(FADE_DEFAULT_TIME + MOVE_DEFAULT_TIME);
+                    movieFragment.setExitTransition(exitFade);
+
+                    // 2. Shared Elements Transition
+                    TransitionSet enterTransitionSet = new TransitionSet();
+                    enterTransitionSet.addTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.move));
+                    enterTransitionSet.setDuration(MOVE_DEFAULT_TIME);
+                    enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME);
+                    movieFragment.setSharedElementEnterTransition(enterTransitionSet);
+
+                    // 3. Enter Transition for New Fragment
+                    Fade enterFade = new Fade();
+                    enterFade.setStartDelay(FADE_DEFAULT_TIME + MOVE_DEFAULT_TIME);
+                    enterFade.setDuration(FADE_DEFAULT_TIME);
+                    movieFragment.setEnterTransition(enterFade);
+
+                }
 
                 View sharedElement1 = view.findViewById(R.id.movieImage);
                 View sharedElement2 = view.findViewById(R.id.title);
                 View sharedElement3 = view.findViewById(R.id.rating);
                 View sharedElement4 = view.findViewById(R.id.star);
+                // Do not change pls
+                sharedElement1.setTransitionName(position + "_image");
                 fragmentTransaction.addSharedElement(sharedElement1, "movieImage");
                 fragmentTransaction.addSharedElement(sharedElement2, "movieTitle");
                 fragmentTransaction.addSharedElement(sharedElement3, "movieRating");
@@ -156,11 +159,6 @@ public class HomeFragment extends Fragment {
                 fragmentTransaction.replace(R.id.main_frame, movieFragment);
                 fragmentTransaction.addToBackStack(getClass().getName());
                 fragmentTransaction.commit();
-
-
-                Toast.makeText(getContext(),
-                        "Position : " + itemPosition + "  ListItem : " + itemValue, Toast.LENGTH_LONG)
-                        .show();
             }
 
         });

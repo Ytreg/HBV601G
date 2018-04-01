@@ -13,9 +13,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView navigation;
     private HomeFragment homeFragment;
     private UserFragment userFragment;
+    private SettingsFragment settingsFragment;
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
@@ -48,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         homeFragment = new HomeFragment();
         userFragment = new UserFragment();
+        settingsFragment = new SettingsFragment();
 
         getMovies();
 
@@ -62,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(homeFragment);
                         return true;
                     case R.id.navigation_account:
-                        overridePendingTransition(0, 0);
                         setFragment(userFragment);
                         return true;
                     case R.id.navigation_settings:
+                        //setFragment(settingsFragment);
                         return true;
                 }
                 return false;
