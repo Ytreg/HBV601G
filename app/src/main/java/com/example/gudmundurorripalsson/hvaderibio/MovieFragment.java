@@ -102,13 +102,19 @@ public class MovieFragment extends Fragment {
 
         try {
             JSONObject json = new JSONObject(arg);
+            List<String> directors = new ArrayList<>();
+            JSONArray directorsJSON = json.getJSONArray("directors_abridged");
+            for (int i = 0; i < directorsJSON.length(); i++) {
+                directors.add(directorsJSON.getJSONObject(i).getString("name"));
+            }
             movie = new Movie(
                     json.getInt("id"),
                     json.getString("title"),
                     json.getJSONObject("ratings").getString("imdb"),
                     json.getString("poster"),
                     json.getString("certificateImg"),
-                    json.getString("plot")
+                    json.getString("plot"),
+                    directors
             );
         } catch (JSONException e) {
             Log.e(TAG, "Exception caught: ", e);
@@ -274,12 +280,27 @@ public class MovieFragment extends Fragment {
         TextView descrView = (TextView) mView.findViewById(R.id.movieDescr);
         TextView ratingView = (TextView) mView.findViewById(R.id.movieRating);
         ImageView certView = (ImageView) mView.findViewById(R.id.movieCertificate);
+        TextView directorView = (TextView) mView.findViewById(R.id.director);
 
         Picasso.with(getContext()).load(movie.getPoster()).into(imageView);
         titleView.setText(movie.getTitle());
         descrView.setText(movie.getDescr());
         ratingView.setText(movie.getImdb());
         Picasso.with(getContext()).load(movie.getCert()).into(certView);
+        List<String> directors = movie.getDirectors();
+        if (directors.size() > 1) {
+            String text = "Leikstjórar: " + directors.get(0);
+            for (int i = 1; i < directors.size(); i++) {
+                if (i == directors.size() - 1) {
+                    text += " og " + directors.get(i);
+                } else {
+                    text += ", " + directors.get(i);
+                }
+            }
+            directorView.setText(text);
+        } else {
+            directorView.setText("Leikstjóri: " + directors.get(0));
+        }
     }
 
     public void addUrlToBtn(Button button, final String url) {
