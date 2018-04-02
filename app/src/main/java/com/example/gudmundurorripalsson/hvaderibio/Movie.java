@@ -19,7 +19,7 @@ public class Movie {
         this.imdb = imdb;
         this.poster = poster;
         this.cert = cert;
-        this.descr = descr;
+        this.descr = descr.replace("\n", " ");
     }
 
     public int getId(){

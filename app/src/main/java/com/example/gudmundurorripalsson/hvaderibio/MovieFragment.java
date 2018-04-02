@@ -36,6 +36,7 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -142,6 +143,8 @@ public class MovieFragment extends Fragment {
                             youTubePlayer.loadVideos(videoList);
                         } catch (JSONException e) {
                             Log.e(TAG, "Exception caught: ", e);
+                            youTubePlayer.release();
+                            Toast.makeText(getContext(), "Ekkert myndband til", Toast.LENGTH_LONG).show();
                             return;
                         }
                     }
@@ -182,6 +185,7 @@ public class MovieFragment extends Fragment {
                         theaterName.setLayoutParams(layoutParams);
                         theaterName.setText(theater.getJSONObject("cinema").getString("name"));
                         theaterName.setTextColor(Color.BLACK);
+                        theaterName.setGravity(Gravity.CENTER_HORIZONTAL);
                         TableRow tableRow = new TableRow(getContext());
                         tableRow.addView(theaterName);
                         FlowLayout flowLayout = new FlowLayout(getContext());
