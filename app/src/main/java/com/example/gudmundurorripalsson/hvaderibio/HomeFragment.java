@@ -1,6 +1,7 @@
 package com.example.gudmundurorripalsson.hvaderibio;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.Image;
 import android.os.Build;
 import android.support.v4.app.Fragment;
@@ -34,6 +35,7 @@ public class HomeFragment extends Fragment {
     private GridView gridView;
     private View mView;
     private JSONArray moviesArray;
+    AnimationDrawable animation;
 
     public static final String TAG = HomeFragment.class.getSimpleName();
 
@@ -44,6 +46,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
+        ImageView loading = (ImageView) mView.findViewById(R.id.loading);
+        animation = (AnimationDrawable) loading.getDrawable();
+        animation.start();
         try {
             String json = getArguments().getString("json");
             try {
@@ -60,6 +65,11 @@ public class HomeFragment extends Fragment {
 
     public void updateMovieList(JSONArray json) {
 
+        animation.stop();
+
+        ImageView loading = (ImageView) mView.findViewById(R.id.loading);
+        loading.setVisibility(View.GONE);
+
         moviesArray = json;
 
         final Movie[] movies = new Movie[json.length()];
@@ -70,9 +80,7 @@ public class HomeFragment extends Fragment {
                         j.getInt("id"),
                         j.getString("title"),
                         j.getJSONObject("ratings").getString("imdb"),
-                        j.getString("poster"),
-                        j.getString("certificateImg"),
-                        j.getString("plot")
+                        j.getString("poster")
                 );
                 movies[i] = movie;
             } catch (JSONException e) {
@@ -162,11 +170,5 @@ public class HomeFragment extends Fragment {
             }
 
         });
-    }
-
-    private void setFragment(Fragment fragment) {
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.main_frame, fragment);
-        fragmentTransaction.commit();
     }
 }
