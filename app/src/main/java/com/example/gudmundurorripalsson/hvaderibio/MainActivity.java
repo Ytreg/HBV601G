@@ -12,7 +12,21 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.content.Context;
+import com.example.gudmundurorripalsson.hvaderibio.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,8 +41,9 @@ import okhttp3.Response;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    private FrameLayout mMainFrame;
+    private Movie m;
+    private TextView mTextMessage;
+    private ListView listView;
     private BottomNavigationView navigation;
     private HomeFragment homeFragment;
     private UserFragment userFragment;
