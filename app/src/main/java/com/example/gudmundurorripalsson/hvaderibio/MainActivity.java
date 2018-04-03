@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mMainFrame = (FrameLayout) findViewById(R.id.main_frame);
-
         homeFragment = new HomeFragment();
         userFragment = new UserFragment();
         settingsFragment = new SettingsFragment();
