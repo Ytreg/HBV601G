@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -27,11 +28,20 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.content.Context;
 import com.example.gudmundurorripalsson.hvaderibio.Movie;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -48,22 +58,24 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment;
     private UserFragment userFragment;
     private SettingsFragment settingsFragment;
-
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("Reviews");
     public static final String TAG = MainActivity.class.getSimpleName();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mMainFrame = (FrameLayout) findViewById(R.id.main_frame);
-
         homeFragment = new HomeFragment();
         userFragment = new UserFragment();
         settingsFragment = new SettingsFragment();
 
+        userFragment.setUser(FirebaseAuth.getInstance().getCurrentUser());
+
         getMovies();
+
+
 
         setFragment(homeFragment);
 
@@ -90,6 +102,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+
+         myRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            // This method is called once with the initial value and again
+                                            // whenever data at this location is updated.
+                                            //Double value = dataSnapshot.getValue(double.class);
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError error) {
+                                            // Failed to read value
+                                            Log.w(TAG, "Failed to read value.", error.toException());
+                                        }
+                                    });
     }
 
     // Remove inter-activity transition to avoid screen tossing on tapping bottom navigation items
@@ -157,6 +185,7 @@ public class MainActivity extends AppCompatActivity {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("json", jsonData.toString());
                                     homeFragment.setArguments(bundle);
+
                                     //Call the method to update the view.
                                 }
                             });
@@ -173,6 +202,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void getReviews() {
+        // Write a message to the database
+
+        Review r1 = new Review("helgi", 7.1, "dis movie is da best");
+        Review r2 = new Review("gummi", 7.0, "dis movie is da worst");
+        List<Review> l = new ArrayList();
+        l.add(r1);
+        l.add(r2);
+
+
+        MovieReview mr = new MovieReview(homeFragment.getMovieList());
+
+        database.getReference().setValue(mr);
+    }
+
 
 
     private boolean isNetworkAvailable() {
@@ -182,4 +226,6 @@ public class MainActivity extends AppCompatActivity {
         if (networkInfo != null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.gudmundurorripalsson.hvaderibio;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -37,7 +38,9 @@ public class UserFragment extends Fragment implements
     private TextView signupRedirection, info;
     private Button loginButton;
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser user;
     private Boolean loginState = true;
+    private String viewState = "login";
     private View mView;
 
     @Override
@@ -47,6 +50,7 @@ public class UserFragment extends Fragment implements
         firebaseAuth = FirebaseAuth.getInstance();
         setupUIViews();
         setLoginView();
+        updateUI(user);
 
         mView.findViewById(R.id.loginButton).setOnClickListener(this);
         mView.findViewById(R.id.signupRedirection).setOnClickListener(this);
@@ -66,36 +70,40 @@ public class UserFragment extends Fragment implements
     private void setLoginView(){
         signupRedirection.setText("New User? Sign Up");
         loginButton.setText("LOGIN");
-        info.setVisibility(View.GONE);
-        username.setVisibility(View.GONE);
+        info.setVisibility(View.INVISIBLE);
+        username.setVisibility(View.INVISIBLE);
         email.setVisibility(View.VISIBLE);
         password.setVisibility(View.VISIBLE);
-        password2.setVisibility(View.GONE);
+        password2.setVisibility(View.INVISIBLE);
         loginButton.setVisibility(View.VISIBLE);
         signupRedirection.setVisibility(View.VISIBLE);
+        viewState = "login";
     }
 
     private void setSignupView(){
         signupRedirection.setText("Already Signed Up? Login");
         loginButton.setText("SIGN UP");
-        info.setVisibility(View.GONE);
+        info.setVisibility(View.INVISIBLE);
         username.setVisibility(View.VISIBLE);
         email.setVisibility(View.VISIBLE);
         password.setVisibility(View.VISIBLE);
         password2.setVisibility(View.VISIBLE);
         loginButton.setVisibility(View.VISIBLE);
         signupRedirection.setVisibility(View.VISIBLE);
+        viewState = "signup";
     }
 
     private void setAccountView(FirebaseUser user){
         info.setText("Welcome " + user.getEmail());
+        loginButton.setText("SIGN OUT");
         info.setVisibility(View.VISIBLE);
-        username.setVisibility(View.GONE);
-        email.setVisibility(View.GONE);
-        password.setVisibility(View.GONE);
-        password2.setVisibility(View.GONE);
-        loginButton.setVisibility(View.GONE);
-        signupRedirection.setVisibility(View.GONE);
+        username.setVisibility(View.INVISIBLE);
+        email.setVisibility(View.INVISIBLE);
+        password.setVisibility(View.INVISIBLE);
+        password2.setVisibility(View.INVISIBLE);
+        loginButton.setVisibility(View.VISIBLE);
+        signupRedirection.setVisibility(View.INVISIBLE);
+        viewState = "account";
     }
 
     private void setupUIViews() {
@@ -112,7 +120,7 @@ public class UserFragment extends Fragment implements
         Log.d(TAG, "signIn:" + email);
 
         firebaseAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener((Activity) getContext(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
@@ -131,19 +139,27 @@ public class UserFragment extends Fragment implements
                 });
     }
 
-    private void createAccount(String email, String password) {
+
+    private void signOut() {
+        firebaseAuth.signOut();
+        updateUI(null);
+    }
+
+
+    private void createAccount(final String email,final String password) {
         Log.d(TAG, "createAccount:" + email);
         ;
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener((Activity) getContext(), new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            updateUI(user);
+                            signIn(email, password);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
@@ -163,14 +179,21 @@ public class UserFragment extends Fragment implements
             String userName = email.getText().toString().trim();
             String userPassword = password.getText().toString().trim();
             System.out.println("info: " + userName + " " + userPassword);
-            if(loginState) {
-                if(validateLogin())
+            if(viewState == "login") {
+                if(validateLogin()) {
                     signIn(userName, userPassword);
+                    viewState = "account";
+                }
             }
-            else{
+            else if(viewState == "signup"){
                 if(validateSignup()) {
                     createAccount(userName, userPassword);
+                    viewState = "account";
                 }
+            }
+            else{
+                signOut();
+                setLoginView();
             }
         }
         if (i == R.id.signupRedirection) {
@@ -212,5 +235,12 @@ public class UserFragment extends Fragment implements
             result = true;
         }
         return result;
+    }
+
+    public FirebaseUser getUser(){
+        return user;
+    }
+    public void setUser(FirebaseUser user){
+        this.user = user;
     }
 }

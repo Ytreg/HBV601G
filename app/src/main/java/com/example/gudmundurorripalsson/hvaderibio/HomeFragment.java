@@ -25,6 +25,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Helgi on 24/03/2018.
  */
@@ -35,6 +38,7 @@ public class HomeFragment extends Fragment {
     private GridView gridView;
     private View mView;
     private JSONArray moviesArray;
+    private List<Integer> movieList = new ArrayList<>();
     AnimationDrawable animation;
 
     public static final String TAG = HomeFragment.class.getSimpleName();
@@ -83,6 +87,7 @@ public class HomeFragment extends Fragment {
                         j.getString("poster")
                 );
                 movies[i] = movie;
+                movieList.add(j.getInt("id"));
             } catch (JSONException e) {
                 Log.e(TAG, "Exception caught: ", e);
             }
@@ -94,6 +99,7 @@ public class HomeFragment extends Fragment {
         for (int i = 0; i < movies.length; i++){
             posters[i] = movies[i].getPoster();
             titles[i] = movies[i].getTitle();
+            System.out.println(movies[i].getTitle());
             ratings[i] = movies[i].getImdb();
         }
 
@@ -170,5 +176,8 @@ public class HomeFragment extends Fragment {
             }
 
         });
+    }
+    public List<Integer> getMovieList(){
+        return movieList;
     }
 }

@@ -43,6 +43,10 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -65,7 +69,8 @@ public class MovieFragment extends Fragment {
     private String descr;
     private String cert;
     private JSONObject json;
-
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference moviesRef = database.getReference("Movies");
     // youtube player to play video when new video selected
     private YouTubePlayerSupportFragment youTubePlayerFragment;
 
@@ -126,6 +131,25 @@ public class MovieFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setEnterTransition(new Fade());
         }
+
+
+        Button rateButton = mView.findViewById(R.id.buttonRate);
+        rateButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                double rating = 7.5;
+                String comment = "Great movie";
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if(user != null){
+                    System.out.println(user.getDisplayName());
+                    Review r = new Review(user.getDisplayName(), rating, comment);
+                    moviesRef.child(Integer.toString(movie.getId())).setValue(r);
+                }
+                else{
+                    Toast.makeText(getContext(), "Login to rate movies.",
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }});
 
         ImageButton videoButton = mView.findViewById(R.id.playVideo);
         videoButton.setOnClickListener(new View.OnClickListener() {

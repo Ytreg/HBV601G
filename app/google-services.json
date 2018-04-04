@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1055699772820-cbe79sjeav8acu00k9k9q9vonau8v8k5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gudmundurorripalsson.hvaderibio",
+            "certificate_hash": "4c81fee11d446a132cb4ae9844a95fbd1d1da851"
+          }
+        },
+        {
           "client_id": "1055699772820-gr7oq9nusismkvnc03bvk12u5cdnacb8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
