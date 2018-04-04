@@ -8,4 +8,7 @@
     <string name="s_ningat_mar">Sýningatímar</string>
     <string name="l_sing_mynd">Lýsing á mynd</string>
     <string name="setur_youtube_spilarann_gang">Setur youtube spilarann í gang</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

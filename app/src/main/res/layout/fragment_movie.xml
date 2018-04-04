@@ -10,7 +10,7 @@
 
         <TextView
             android:id="@+id/movieTitle"
-            android:layout_width="246dp"
+            android:layout_width="214dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -137,7 +137,7 @@
 
     <TextView
         android:id="@+id/director"
-        android:layout_width="242dp"
+        android:layout_width="214dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -150,30 +150,32 @@
 
     <Button
         android:id="@+id/buttonRate"
-        android:layout_width="52dp"
-        android:layout_height="32dp"
+        android:layout_width="62dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Gefðu einkun"
+        android:text="Gefa Einkun"
+        android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.974"
+        app:layout_constraintHorizontal_bias="0.973"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonBio"
-        app:layout_constraintVertical_bias="0.049" />
+        app:layout_constraintVertical_bias="0.01" />
 
     <ImageButton
         android:id="@+id/buttonBio"
         android:layout_width="50dp"
-        android:layout_height="38dp"
-        android:layout_marginEnd="8dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="20dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/logo"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.915"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imdbButton" />
 
@@ -187,7 +189,7 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/buttonBio"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.931"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/movieRating"
         app:layout_constraintVertical_bias="0.0" />

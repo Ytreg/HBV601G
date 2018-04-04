@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.concurrent.Executor;
 
@@ -81,7 +82,7 @@ public class UserFragment extends Fragment implements
     }
 
     private void setSignupView(){
-        signupRedirection.setText("Already Signed Up? Login");
+            signupRedirection.setText("Already Signed Up? Login");
         loginButton.setText("SIGN UP");
         info.setVisibility(View.INVISIBLE);
         username.setVisibility(View.VISIBLE);
@@ -94,7 +95,7 @@ public class UserFragment extends Fragment implements
     }
 
     private void setAccountView(FirebaseUser user){
-        info.setText("Welcome " + user.getEmail());
+        info.setText("Welcome " + user.getDisplayName());
         loginButton.setText("SIGN OUT");
         info.setVisibility(View.VISIBLE);
         username.setVisibility(View.INVISIBLE);
@@ -157,7 +158,13 @@ public class UserFragment extends Fragment implements
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            FirebaseUser user = firebaseAuth.getCurrentUser();
+                            final FirebaseUser user = firebaseAuth.getInstance().getCurrentUser();
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(username.getText().toString())
+                                    .build();
+
+                            user.updateProfile(profileUpdates);
+
                             signIn(email, password);
 
                         } else {

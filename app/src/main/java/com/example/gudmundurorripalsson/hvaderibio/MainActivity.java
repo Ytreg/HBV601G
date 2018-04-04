@@ -202,20 +202,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getReviews() {
-        // Write a message to the database
-
-        Review r1 = new Review("helgi", 7.1, "dis movie is da best");
-        Review r2 = new Review("gummi", 7.0, "dis movie is da worst");
-        List<Review> l = new ArrayList();
-        l.add(r1);
-        l.add(r2);
-
-
-        MovieReview mr = new MovieReview(homeFragment.getMovieList());
-
-        database.getReference().setValue(mr);
-    }
 
 
 

@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.IntRange;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.transition.Fade;
 import android.transition.Slide;
@@ -140,9 +141,14 @@ public class MovieFragment extends Fragment {
                 String comment = "Great movie";
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null){
-                    System.out.println(user.getDisplayName());
-                    Review r = new Review(user.getDisplayName(), rating, comment);
-                    moviesRef.child(Integer.toString(movie.getId())).setValue(r);
+                    HomeFragment homeFragment = new HomeFragment();
+                    RateFragment rateFragment = new RateFragment();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.main_frame, rateFragment);
+                    fragmentTransaction.commit();
+                    Review r = new Review(rating, comment);
+                   moviesRef.child(Integer.toString(movie.getId())).child(user.getDisplayName()).setValue(r);
+
                 }
                 else{
                     Toast.makeText(getContext(), "Login to rate movies.",

@@ -99,7 +99,6 @@ public class HomeFragment extends Fragment {
         for (int i = 0; i < movies.length; i++){
             posters[i] = movies[i].getPoster();
             titles[i] = movies[i].getTitle();
-            System.out.println(movies[i].getTitle());
             ratings[i] = movies[i].getImdb();
         }
 

@@ -6,12 +6,11 @@ package com.example.gudmundurorripalsson.hvaderibio;
 
 public class Review {
 
-    public String user;
+
     public double score;
     public String comment;
 
-    public Review(String user, double score, String comment){
-        this.user = user;
+    public Review(double score, String comment){
         this.score = score;
         this.comment = comment;
     }
