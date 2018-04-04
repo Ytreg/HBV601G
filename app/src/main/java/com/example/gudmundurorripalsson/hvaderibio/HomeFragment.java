@@ -25,6 +25,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Helgi on 24/03/2018.
  */
@@ -171,4 +174,5 @@ public class HomeFragment extends Fragment {
 
         });
     }
+
 }
