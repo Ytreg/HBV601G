@@ -134,7 +134,6 @@ public class MovieFragment extends Fragment {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 value = dataSnapshot.getValue(String.class);
-                System.out.println("yolo");
             }
 
             @Override
@@ -338,7 +337,7 @@ public class MovieFragment extends Fragment {
         titleView.setText(movie.getTitle());
         descrView.setText(movie.getDescr());
         imdbRatingView.setText(movie.getImdb());
-        bioRatingView.setText("v" + value);
+        //bioRatingView.setText(value);
         Picasso.with(getContext()).load(movie.getCert()).into(certView);
         List<String> directors = movie.getDirectors();
         int directorsSize = directors.size();
