@@ -38,7 +38,6 @@ public class HomeFragment extends Fragment {
     private GridView gridView;
     private View mView;
     private JSONArray moviesArray;
-    private List<Integer> movieList = new ArrayList<>();
     AnimationDrawable animation;
 
     public static final String TAG = HomeFragment.class.getSimpleName();
@@ -87,7 +86,6 @@ public class HomeFragment extends Fragment {
                         j.getString("poster")
                 );
                 movies[i] = movie;
-                movieList.add(j.getInt("id"));
             } catch (JSONException e) {
                 Log.e(TAG, "Exception caught: ", e);
             }
@@ -176,7 +174,5 @@ public class HomeFragment extends Fragment {
 
         });
     }
-    public List<Integer> getMovieList(){
-        return movieList;
-    }
+
 }

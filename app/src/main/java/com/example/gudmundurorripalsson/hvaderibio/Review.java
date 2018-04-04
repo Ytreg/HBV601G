@@ -7,12 +7,24 @@ package com.example.gudmundurorripalsson.hvaderibio;
 public class Review {
 
 
-    public double score;
-    public String comment;
+    private int score;
+    private String comment;
 
-    public Review(double score, String comment){
+    public Review(){
+
+    }
+
+    public Review(int score, String comment){
         this.score = score;
         this.comment = comment;
     }
 
+
+    public int getScore() {
+        return score;
+    }
+
+    public String getComment() {
+        return comment;
+    }
 }

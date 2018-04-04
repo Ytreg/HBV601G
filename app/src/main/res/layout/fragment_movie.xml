@@ -39,7 +39,7 @@
         tools:text="Movie description" />
 
         <TextView
-            android:id="@+id/movieRating"
+            android:id="@+id/imdbRating"
             android:layout_width="29dp"
             android:layout_height="32dp"
             android:layout_marginEnd="8dp"
@@ -89,7 +89,7 @@
         android:transitionName="star"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/movieRating"
+        app:layout_constraintStart_toEndOf="@+id/imdbRating"
         app:layout_constraintTop_toBottomOf="@+id/videoView" />
 
         <fragment
@@ -191,7 +191,7 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonBio"
         app:layout_constraintHorizontal_bias="0.931"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieRating"
+        app:layout_constraintTop_toBottomOf="@+id/imdbRating"
         app:layout_constraintVertical_bias="0.0" />
 
 

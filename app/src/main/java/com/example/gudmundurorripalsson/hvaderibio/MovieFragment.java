@@ -1,19 +1,16 @@
 package com.example.gudmundurorripalsson.hvaderibio;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IntRange;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.util.DisplayMetrics;
@@ -23,29 +20,24 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerSupportFragment;
-import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
@@ -54,9 +46,9 @@ import com.wefika.flowlayout.FlowLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -70,16 +62,17 @@ public class MovieFragment extends Fragment {
     private String descr;
     private String cert;
     private JSONObject json;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference moviesRef = database.getReference("Movies");
+    private String value;
+    private FirebaseDatabase database;
+    private int rating;
     // youtube player to play video when new video selected
     private YouTubePlayerSupportFragment youTubePlayerFragment;
-
     public static final String TAG = MovieFragment.class.getSimpleName();
 
     public MovieFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -126,28 +119,54 @@ public class MovieFragment extends Fragment {
             Log.e(TAG, "Exception caught: ", e);
         }
 
-        updateView();
+
 
         // Virkar bara fyrir API sem eru 21+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setEnterTransition(new Fade());
         }
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRef = database.getReference().child(String.valueOf(movie.getId())).child("score");
+        mRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                value = dataSnapshot.getValue(String.class);
+                System.out.println("yolo");
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        updateView();
         Button rateButton = mView.findViewById(R.id.buttonRate);
         rateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                double rating = 7.5;
-                String comment = "Great movie";
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null){
-                    HomeFragment homeFragment = new HomeFragment();
-                    RateFragment rateFragment = new RateFragment();
+                    int movieID = movie.getId();
+                    String poster = movie.getPoster();
+                    RateFragment rateFragment = new RateFragment(movieID, user.getDisplayName(), poster);
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.main_frame, rateFragment);
                     fragmentTransaction.commit();
-                    Review r = new Review(rating, comment);
-                   moviesRef.child(Integer.toString(movie.getId())).child(user.getDisplayName()).setValue(r);
 
                 }
                 else{
@@ -308,14 +327,16 @@ public class MovieFragment extends Fragment {
         ImageView imageView = (ImageView) mView.findViewById(R.id.movieImage);
         TextView titleView = (TextView) mView.findViewById(R.id.movieTitle);
         TextView descrView = (TextView) mView.findViewById(R.id.movieDescr);
-        TextView ratingView = (TextView) mView.findViewById(R.id.movieRating);
+        TextView imdbRatingView = (TextView) mView.findViewById(R.id.imdbRating);
         ImageView certView = (ImageView) mView.findViewById(R.id.movieCertificate);
         TextView directorView = (TextView) mView.findViewById(R.id.director);
+        TextView bioRatingView = (TextView) mView.findViewById(R.id.bioRating);
 
         Picasso.with(getContext()).load(movie.getPoster()).into(imageView);
         titleView.setText(movie.getTitle());
         descrView.setText(movie.getDescr());
-        ratingView.setText(movie.getImdb());
+        imdbRatingView.setText(movie.getImdb());
+        bioRatingView.setText("v" + value);
         Picasso.with(getContext()).load(movie.getCert()).into(certView);
         List<String> directors = movie.getDirectors();
         if (directors.size() > 1) {
@@ -352,4 +373,6 @@ public class MovieFragment extends Fragment {
             }
         });
     }
+
+
 }
