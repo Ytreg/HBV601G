@@ -105,8 +105,9 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    //Sækir allar upplýsingarnar um bíómyndirnar frá vefþjónustunni okkar og birtir á listanum.
     private void getMovies() {
-        String url = "http://bio-serverinn.herokuapp.com/";
+        String url = "http://bio-serverinn.herokuapp.com/"; //Vefþjónusta sem við bjuggum til og geymir upplýsingar frá api.kvikmyndir.is
 
         if (isNetworkAvailable()) {
             //toggleRefresh();
@@ -127,7 +128,6 @@ public class MainActivity extends AppCompatActivity {
                             //toggleRefresh();
                         }
                     });
-                    //alertUserAboutError();
                 }
 
                 @Override
@@ -155,19 +155,14 @@ public class MainActivity extends AppCompatActivity {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("json", jsonData.toString());
                                     homeFragment.setArguments(bundle);
-                                    //Call the method to update the view.
                                 }
                             });
-                        } else {
-                            //alertUserAboutError();
                         }
                     } catch (IOException e) {
                         Log.e(TAG, "Exception caught: ", e);
                     }
                 }
             });
-        } else {
-            // Toast.makeText(this, R.string.network_unavailable_message, Toast.LENGTH_LONG).show();
         }
     }
 
