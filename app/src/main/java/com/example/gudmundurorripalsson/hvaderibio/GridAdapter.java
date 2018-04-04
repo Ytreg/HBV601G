@@ -1,6 +1,9 @@
 package com.example.gudmundurorripalsson.hvaderibio;
 
 import android.content.Context;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +69,11 @@ public class GridAdapter extends BaseAdapter {
         Picasso.with(context).load(images[position]).into(imageView);
         titleView.setText(titles[position]);
         ratingView.setText(ratings[position]);
+        /* Checkmark animation
+        ImageView checkmark = (ImageView) view.findViewById(R.id.checkmark);
+        checkmark.setVisibility(View.VISIBLE);
+        ((Animatable) checkmark.getDrawable()).start();
+        */
         return view;
     }
 }

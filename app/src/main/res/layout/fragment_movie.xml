@@ -53,16 +53,20 @@
             app:layout_constraintTop_toBottomOf="@+id/videoView"
             tools:text="7.7" />
 
-    <Button
-        android:id="@+id/showtimes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:text="Sýningartímar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoView" />
+
+        <Button
+            android:id="@+id/showtimes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/syningartimar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.502"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/videoView" />
+
 
         <ImageView
             android:id="@+id/movieCertificate"
@@ -77,20 +81,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/videoView" />
 
-    <ImageButton
-        android:id="@+id/imdbButton"
-        android:layout_width="48dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/imdb_logo"
-        android:contentDescription="@string/link_yfir_imdb_s_u_myndar"
-        android:scaleType="centerCrop"
-        android:transitionName="star"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/imdbRating"
-        app:layout_constraintTop_toBottomOf="@+id/videoView" />
+
+        <ImageButton
+            android:id="@+id/imdbButton"
+            android:layout_width="48dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/imdb_logo"
+            android:contentDescription="@string/link_yfir_a_imdb_sidu_myndar"
+            android:scaleType="centerCrop"
+            android:transitionName="star"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/movieRating"
+            app:layout_constraintTop_toBottomOf="@+id/videoView" />
+
 
         <fragment
             android:id="@+id/videoView"
@@ -108,19 +114,21 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
-        android:id="@+id/movieImage"
-        android:layout_width="match_parent"
-        android:layout_height="266dp"
-        android:layout_marginBottom="12dp"
-        android:contentDescription="@string/l_sing_mynd"
-        android:scaleType="centerCrop"
-        android:transitionName="movieImage"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/videoView"
-        app:layout_constraintStart_toStartOf="@+id/videoView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/movieImage"
+            android:layout_width="match_parent"
+            android:layout_height="265dp"
+            android:layout_marginBottom="12dp"
+            android:contentDescription="@string/lysing_a_mynd"
+            android:scaleType="centerCrop"
+            android:transitionName="movieImage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/videoView"
+            app:layout_constraintStart_toStartOf="@+id/videoView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
 
         <ImageButton
             android:id="@+id/playVideo"
@@ -129,7 +137,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="104dp"
-            android:contentDescription="@string/setur_youtube_spilarann_gang"
+            android:contentDescription="@string/setur_youtube_spilarann_i_gang"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

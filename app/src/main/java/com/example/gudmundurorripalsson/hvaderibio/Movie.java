@@ -4,6 +4,8 @@ import java.util.List;
 
 /**
  * Created by gudmundurorripalsson on 3/14/18.
+ *
+ * Geymir upplýsingar um einstaka mynd
  */
 
 public class Movie {
