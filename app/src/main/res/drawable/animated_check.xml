@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/check_mark">
+    <target
+        android:name="background"
+        android:animation="@anim/checkcircle_animation1" />
+    <target
+        android:animation="@anim/checkcircle_animation2"
+        android:name="background" />
+    <target
+        android:name="tick"
+        android:animation="@anim/check_animation" />
+</animated-vector>
