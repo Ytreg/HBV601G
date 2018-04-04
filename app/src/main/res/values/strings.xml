@@ -1,11 +1,27 @@
 <resources>
-    <string name="app_name">Hvaderibio</string>
+    <string name="app_name">Bíóappið</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-    <string name="link_yfir_imdb_s_u_myndar">Link yfir á IMDb síðu myndar</string>
-    <string name="aldurstakmark">aldurstakmark</string>
-    <string name="s_ningat_mar">Sýningatímar</string>
-    <string name="l_sing_mynd">Lýsing á mynd</string>
-    <string name="setur_youtube_spilarann_gang">Setur youtube spilarann í gang</string>
+    <string name="link_yfir_a_imdb_sidu_myndar">IMDb Link</string>
+    <string name="lysing_a_mynd">Description</string>
+    <string name="setur_youtube_spilarann_i_gang">Starts Youtube Player</string>
+    <string name="syningartimar">Showtimes</string>
+    <string name="email">Email</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="login">Login</string>
+    <string name="new_user_sign_up">New User? Sign Up</string>
+    <string name="aldurstakmark">Age Limit</string>
+    <string name="leikstjorar">Directors: %s</string>
+    <string name="leikstjori">Director: %s</string>
+    <string name="no_video_available">No Video Available</string>
+    <string name="lOGIN">LOGIN</string>
+    <string name="already_Signed_Up">Already Signed Up? Login</string>
+    <string name="sIGNUP">SIGN UP</string>
+    <string name="welcome">Welcome %s</string>
+    <string name="please_enter_all_the_details">Please enter all the details</string>
+    <string name="the_passwords_have_to_match">The passwords have to match</string>
+    <string name="and">and</string>
 </resources>
