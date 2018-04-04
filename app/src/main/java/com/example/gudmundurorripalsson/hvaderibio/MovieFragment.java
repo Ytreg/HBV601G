@@ -54,6 +54,9 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.gudmundurorripalsson.hvaderibio.R.string.leikstjorar;
+import static com.example.gudmundurorripalsson.hvaderibio.R.string.leikstjori;
+
 /**
  * Created by Helgi on 24/03/2018.
  */
@@ -150,8 +153,7 @@ public class MovieFragment extends Fragment {
                         } catch (JSONException e) {
                             Log.e(TAG, "Exception caught: ", e);
                             youTubePlayer.release();
-                            Toast.makeText(getContext(), "Ekkert myndband til", Toast.LENGTH_LONG).show();
-                            return;
+                            Toast.makeText(getContext(), R.string.no_video_available, Toast.LENGTH_LONG).show();
                         }
                     }
 
@@ -288,19 +290,23 @@ public class MovieFragment extends Fragment {
         ratingView.setText(movie.getImdb());
         Picasso.with(getContext()).load(movie.getCert()).into(certView);
         List<String> directors = movie.getDirectors();
-        if (directors.size() > 1) {
-            String text = "Leikstjórar: " + directors.get(0);
-            for (int i = 1; i < directors.size(); i++) {
-                if (i == directors.size() - 1) {
-                    text += " og " + directors.get(i);
+        int directorsSize = directors.size();
+        if (directorsSize > 1) {
+            StringBuilder directorList = new StringBuilder().append(directors.get(0));
+            // String text = getString(R.string.leikstjorar, directors.get(0));
+            for (int i = 1; i < directorsSize - 1; i++) {
+                directorList.append(", ").append(directors.get(i));
+                /*if (i == directors.size() - 1) {
+                    text += getString(R.string.and) + directors.get(i);
                 } else {
                     text += ", " + directors.get(i);
-                }
+                }*/
             }
-            directorView.setText(text);
-        } else {
-            directorView.setText("Leikstjóri: " + directors.get(0));
-        }
+            directorList.append(getString(R.string.and)).append(directors.get(directorsSize - 1));
+            // directorView.setText(text);
+            directorView.setText(getString(leikstjorar, directorList.toString()));
+        } else
+            directorView.setText(getString(leikstjori, directors.get(0)));
     }
 
     public void addUrlToBtn(Button button, final String url) {

@@ -64,8 +64,8 @@ public class UserFragment extends Fragment implements
     }
 
     private void setLoginView(){
-        signupRedirection.setText("New User? Sign Up");
-        loginButton.setText("LOGIN");
+        signupRedirection.setText(getString(R.string.new_user_sign_up));
+        loginButton.setText(R.string.lOGIN);
         info.setVisibility(View.GONE);
         username.setVisibility(View.GONE);
         email.setVisibility(View.VISIBLE);
@@ -76,8 +76,8 @@ public class UserFragment extends Fragment implements
     }
 
     private void setSignupView(){
-        signupRedirection.setText("Already Signed Up? Login");
-        loginButton.setText("SIGN UP");
+        signupRedirection.setText(R.string.already_Signed_Up);
+        loginButton.setText(R.string.sIGNUP);
         info.setVisibility(View.GONE);
         username.setVisibility(View.VISIBLE);
         email.setVisibility(View.VISIBLE);
@@ -88,7 +88,7 @@ public class UserFragment extends Fragment implements
     }
 
     private void setAccountView(FirebaseUser user){
-        info.setText("Welcome " + user.getEmail());
+        info.setText(getString(R.string.welcome, user.getEmail()));
         info.setVisibility(View.VISIBLE);
         username.setVisibility(View.GONE);
         email.setVisibility(View.GONE);
@@ -133,7 +133,6 @@ public class UserFragment extends Fragment implements
 
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
-        ;
 
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
@@ -193,9 +192,9 @@ public class UserFragment extends Fragment implements
         String password2String = password2.getText().toString();
         String emailString = email.getText().toString();
         if(usernameString.isEmpty() || passwordString.isEmpty() || password2String.isEmpty() || emailString.isEmpty()){
-            Toast.makeText(getContext(), "Please enter all the details", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.please_enter_all_the_details, Toast.LENGTH_LONG).show();
         } else if(!passwordString.equals(password2String)){
-            Toast.makeText(getContext(), "The passwords have to match", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.the_passwords_have_to_match, Toast.LENGTH_SHORT).show();
         } else{
             result = true;
         }
@@ -207,7 +206,7 @@ public class UserFragment extends Fragment implements
         String username = email.getText().toString();
         String userPassword = password.getText().toString();
         if(username.isEmpty() || userPassword.isEmpty()){
-            Toast.makeText(getContext(), "Please enter all the details", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), R.string.please_enter_all_the_details, Toast.LENGTH_LONG).show();
         } else{
             result = true;
         }

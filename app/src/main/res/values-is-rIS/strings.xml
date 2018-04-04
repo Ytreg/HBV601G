@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bíóhappið</string>
+    <string name="title_home" translatable="false">Heim</string>
+    <string name="link_yfir_a_imdb_sidu_myndar">Linkur yfir á IMDb-síðu myndar</string>
+    <string name="aldurstakmark">aldurstakmark</string>
+    <string name="lysing_a_mynd">Lýsing á mynd</string>
+    <string name="setur_youtube_spilarann_i_gang">Setur youtube spilarann í gang</string>
+    <string name="syningartimar">Sýningartímar</string>
+    <string name="email">Tölvupóstsfang</string>
+    <string name="username">Notandanafn</string>
+    <string name="password">Lykilorð</string>
+    <string name="confirm_password">Staðfesta lykilorð</string>
+    <string name="login">Innskráning</string>
+    <string name="new_user_sign_up">Nýskráning</string>
+    <string name="title_dashboard">Mælaborð</string>
+    <string name="title_notifications">Tilkynningar</string>
+    <string name="leikstjorar">Leikstjórar: %s</string>
+    <string name="leikstjori">Leikstjóri: %s</string>
+    <string name="no_video_available">Ekkert myndband til</string>
+    <string name="lOGIN">INNSKRÁ</string>
+    <string name="already_Signed_Up">Innskráning</string>
+    <string name="sIGNUP">NÝSKRÁ</string>
+    <string name="welcome">Velkomin/n %s</string>
+    <string name="please_enter_all_the_details">Vinsamlegast skráðu inn allar upplýsingar</string>
+    <string name="the_passwords_have_to_match">Lykilorðin stemma ekki</string>
+    <string name="and">og</string>
+</resources>
