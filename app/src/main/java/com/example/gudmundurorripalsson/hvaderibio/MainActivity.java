@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         setFragment(userFragment);
                         return true;
                     case R.id.navigation_settings:
-                        //setFragment(settingsFragment);
+                        setFragment(settingsFragment);
                         return true;
                 }
                 return false;
