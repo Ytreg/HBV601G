@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.transition.Fade;
@@ -86,9 +87,11 @@ public class MovieFragment extends Fragment {
         }
     }
 
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_movie, container, false);
-
+        System.out.println("yoyoyo");
         String arg = getArguments().getString("movie");
         try {
             json = new JSONObject(arg);
@@ -128,34 +131,10 @@ public class MovieFragment extends Fragment {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             setEnterTransition(new Fade());
         }
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRef = database.getReference().child(String.valueOf(movie.getId())).child("score");
-        mRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                value = dataSnapshot.getValue(String.class);
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-            }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        getScore(85046);
 
         updateView();
         Button rateButton = mView.findViewById(R.id.buttonRate);
@@ -177,6 +156,8 @@ public class MovieFragment extends Fragment {
                 }
 
             }});
+
+
 
         ImageButton videoButton = mView.findViewById(R.id.playVideo);
         videoButton.setOnClickListener(new View.OnClickListener() {
@@ -322,6 +303,40 @@ public class MovieFragment extends Fragment {
         ImageView poster = getActivity().findViewById(R.id.movieImage);
         poster.setVisibility(View.VISIBLE);
         super.onPause();
+    }
+
+    public double getScore(int movieId){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRef = database.getReference().child("Movies").child(String.valueOf(movieId));
+        System.out.println(mRef);
+        mRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                List<Integer> value = (List<Integer>) dataSnapshot.getValue();
+                System.out.println("value " + value);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return 0.1;
     }
 
     private void updateView() {

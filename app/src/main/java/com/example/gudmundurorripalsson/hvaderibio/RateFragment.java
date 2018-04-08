@@ -90,7 +90,7 @@ public class RateFragment extends Fragment {
                 String comment = "Great movie";
                 Review r = new Review(rating, comment);
 
-                moviesRef.child(Integer.toString(movieID)).child("reviews").child(username).setValue(r);
+                moviesRef.child(Integer.toString(movieID)).child("score").push();
             }
         });
 
