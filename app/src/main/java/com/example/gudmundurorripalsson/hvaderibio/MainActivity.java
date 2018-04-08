@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
             Request request = new Request.Builder()
                     .url(url)
+                    .header("Authorization", "Bearer Kappa")
                     .build();
 
             Log.v(TAG, request.toString());
@@ -200,9 +201,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
     }
-
-
-
 
     private boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

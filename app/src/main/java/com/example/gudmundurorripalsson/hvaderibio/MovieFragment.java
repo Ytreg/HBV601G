@@ -201,7 +201,9 @@ public class MovieFragment extends Fragment {
                         } catch (JSONException e) {
                             Log.e(TAG, "Exception caught: ", e);
                             youTubePlayer.release();
-                            Toast.makeText(getContext(), R.string.no_video_available, Toast.LENGTH_LONG).show();
+                            Toast noVideo = Toast.makeText(getContext(), R.string.no_video_available, Toast.LENGTH_LONG);
+                            noVideo.setGravity(Gravity.TOP, 0, 400);
+                            noVideo.show();
                         }
                     }
 
