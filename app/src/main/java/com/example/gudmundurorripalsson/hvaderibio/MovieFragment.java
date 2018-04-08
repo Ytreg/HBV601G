@@ -14,6 +14,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.transition.Fade;
 import android.transition.Slide;
+import android.transition.TransitionInflater;
+import android.transition.TransitionSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -41,6 +43,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -48,9 +51,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.example.gudmundurorripalsson.hvaderibio.R.string.leikstjorar;
 import static com.example.gudmundurorripalsson.hvaderibio.R.string.leikstjori;
@@ -66,9 +71,9 @@ public class MovieFragment extends Fragment {
     private String descr;
     private String cert;
     private JSONObject json;
-    private String value;
     private FirebaseDatabase database;
-    private int rating;
+    private double rating;
+
     // youtube player to play video when new video selected
     private YouTubePlayerSupportFragment youTubePlayerFragment;
     public static final String TAG = MovieFragment.class.getSimpleName();
@@ -89,9 +94,9 @@ public class MovieFragment extends Fragment {
 
 
 
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_movie, container, false);
-        System.out.println("yoyoyo");
         String arg = getArguments().getString("movie");
         try {
             json = new JSONObject(arg);
@@ -126,6 +131,23 @@ public class MovieFragment extends Fragment {
         }
 
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRef = database.getReference().child("Movies").child(String.valueOf(movie.getId()));
+        System.out.println("movieid "  + movie.getId());
+        mRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Get map of users in datasnapshot
+                        collectRatings((Map<String,Object>) dataSnapshot.getValue());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //handle databaseError
+                    }
+                });
+
 
         // Virkar bara fyrir API sem eru 21+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -134,7 +156,7 @@ public class MovieFragment extends Fragment {
 
 
 
-        getScore(85046);
+
 
         updateView();
         Button rateButton = mView.findViewById(R.id.buttonRate);
@@ -144,8 +166,35 @@ public class MovieFragment extends Fragment {
                 if(user != null){
                     int movieID = movie.getId();
                     String poster = movie.getPoster();
+                    ImageView posterView = mView.findViewById(R.id.movieImage);
                     RateFragment rateFragment = new RateFragment(movieID, user.getDisplayName(), poster);
+                    int FADE_DEFAULT_TIME = 300;
+                    int MOVE_DEFAULT_TIME = 300;
+                    // Virkar bara fyrir API sem eru 21+
+
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                        // 1. Exit for Previous Fragment
+                        Fade exitFade = new Fade();
+                        exitFade.setDuration(FADE_DEFAULT_TIME + MOVE_DEFAULT_TIME);
+                        rateFragment.setExitTransition(exitFade);
+
+                        // 2. Shared Elements Transition
+                        TransitionSet enterTransitionSet = new TransitionSet();
+                        enterTransitionSet.addTransition(TransitionInflater.from(getActivity()).inflateTransition(android.R.transition.move));
+                        enterTransitionSet.setDuration(MOVE_DEFAULT_TIME);
+                        enterTransitionSet.setStartDelay(FADE_DEFAULT_TIME);
+                        rateFragment.setSharedElementEnterTransition(enterTransitionSet);
+
+                        // 3. Enter Transition for New Fragment
+                        Fade enterFade = new Fade();
+                        enterFade.setStartDelay(FADE_DEFAULT_TIME + MOVE_DEFAULT_TIME);
+                        enterFade.setDuration(FADE_DEFAULT_TIME);
+                        rateFragment.setEnterTransition(enterFade);
+
+                    }
+                    fragmentTransaction.addSharedElement(posterView, "rateTransition");
                     fragmentTransaction.replace(R.id.main_frame, rateFragment);
                     fragmentTransaction.commit();
 
@@ -283,7 +332,6 @@ public class MovieFragment extends Fragment {
             }
         });
 
-
         /**
          * IMDb síða myndar sett á IMDb merkið
          */
@@ -300,6 +348,25 @@ public class MovieFragment extends Fragment {
         return mView;
     }
 
+    private void collectRatings(Map<String, Object> value) {
+        ArrayList<Long> scores = new ArrayList<>();
+
+        //iterate through each user, ignoring their UID
+        for (Map.Entry<String, Object> entry : value.entrySet()){
+
+            //Get user map
+            Map rating = (Map) entry.getValue();
+            //Get phone field and append to list
+            scores.add((Long) rating.get("score"));
+        }
+
+        double score = getScore(scores);
+
+        TextView bioRating = (TextView) mView.findViewById(R.id.bioRating);
+        DecimalFormat df = new DecimalFormat("#.#");
+        bioRating.setText(df.format(score));
+    }
+
     @Override
     public void onPause() {
         ImageView poster = getActivity().findViewById(R.id.movieImage);
@@ -307,39 +374,18 @@ public class MovieFragment extends Fragment {
         super.onPause();
     }
 
-    public double getScore(int movieId){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference mRef = database.getReference().child("Movies").child(String.valueOf(movieId));
-        System.out.println(mRef);
-        mRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                List<Integer> value = (List<Integer>) dataSnapshot.getValue();
-                System.out.println("value " + value);
-            }
 
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        return 0.1;
+    public double getScore(ArrayList<Long> scores){
+        System.out.println("size " + scores.size());
+        double score = 0.0;
+        for(int i = 0; i < scores.size(); i++){
+            score += scores.get(i);
+        }
+        score = score/scores.size();
+        return score;
     }
+
+
 
     private void updateView() {
         ImageView imageView = (ImageView) mView.findViewById(R.id.movieImage);
@@ -396,5 +442,14 @@ public class MovieFragment extends Fragment {
         });
     }
 
+
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
 
 }

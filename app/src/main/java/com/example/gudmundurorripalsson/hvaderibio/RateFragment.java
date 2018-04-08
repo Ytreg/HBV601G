@@ -50,9 +50,9 @@ public class RateFragment extends Fragment {
     private View mView;
     private RadioGroup radiogroup1;
     RadioButton checkedButton;
-    private int rating;
+    private int score;
     private int movieID;
-    private String username;
+    String username;
     String poster;
     ImageView movieposter;
 
@@ -86,11 +86,10 @@ public class RateFragment extends Fragment {
         rateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 checkedButton = (RadioButton)mView.findViewById(radiogroup1.getCheckedRadioButtonId());
-                rating = Integer.parseInt(checkedButton.getText().toString());
+                score = Integer.parseInt(checkedButton.getText().toString());
                 String comment = "Great movie";
-                Review r = new Review(rating, comment);
-
-                moviesRef.child(Integer.toString(movieID)).child("score").push();
+                Review r = new Review(score, comment);
+                moviesRef.child(Integer.toString(movieID)).child(username).child("score").setValue(score);
             }
         });
 
