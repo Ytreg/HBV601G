@@ -186,16 +186,13 @@ public class MainActivity extends AppCompatActivity {
                                     Bundle bundle = new Bundle();
                                     bundle.putString("json", jsonData.toString());
                                     homeFragment.setArguments(bundle);
-
-
-                                    //Call the method to update the view.
-
-
                                 }
                             });
                         }
                     } catch (IOException e) {
                         Log.e(TAG, "Exception caught: ", e);
+                    } finally {
+                        response.body().close();
                     }
                 }
             });
