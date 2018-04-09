@@ -174,7 +174,7 @@ public class MovieFragment extends Fragment {
                 if(user != null){
                     int movieID = movie.getId();
                     String poster = movie.getPoster();
-                    ImageView posterView = mView.findViewById(R.id.movieImage);
+                    View posterView = mView.findViewById(R.id.movieImage);
                     RateFragment rateFragment = new RateFragment(movieID, user.getDisplayName(), poster);
                     int FADE_DEFAULT_TIME = 300;
                     int MOVE_DEFAULT_TIME = 300;
@@ -202,8 +202,10 @@ public class MovieFragment extends Fragment {
                         rateFragment.setEnterTransition(enterFade);
 
                     }
+                    System.out.println(posterView.getTransitionName());
                     fragmentTransaction.addSharedElement(posterView, "rateTransition");
                     fragmentTransaction.replace(R.id.main_frame, rateFragment);
+                    fragmentTransaction.addToBackStack(TAG);
                     fragmentTransaction.commit();
 
                 }
