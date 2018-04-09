@@ -72,7 +72,7 @@ public class MovieFragment extends Fragment {
     private String cert;
     private JSONObject json;
     private FirebaseDatabase database;
-    private double rating;
+    public Score score;
 
     // youtube player to play video when new video selected
     private YouTubePlayerSupportFragment youTubePlayerFragment;
@@ -92,8 +92,11 @@ public class MovieFragment extends Fragment {
         }
     }
 
-
-
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        score = new Score();
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_movie, container, false);
@@ -139,12 +142,17 @@ public class MovieFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //Get map of users in datasnapshot
-                        collectRatings((Map<String,Object>) dataSnapshot.getValue());
+                        if(dataSnapshot.getValue() != null) {
+                            double rating = score.collectRating((Map<String, Object>) dataSnapshot.getValue());
+                            TextView bioRating = (TextView) mView.findViewById(R.id.bioRating);
+                            DecimalFormat df = new DecimalFormat("#.#");
+                            bioRating.setText(df.format(rating));
+                        }
                     }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
-                        //handle databaseError
+                        Log.e(TAG, "Error caught: " + databaseError);
                     }
                 });
 
@@ -348,24 +356,7 @@ public class MovieFragment extends Fragment {
         return mView;
     }
 
-    private void collectRatings(Map<String, Object> value) {
-        ArrayList<Long> scores = new ArrayList<>();
 
-        //iterate through each user, ignoring their UID
-        for (Map.Entry<String, Object> entry : value.entrySet()){
-
-            //Get user map
-            Map rating = (Map) entry.getValue();
-            //Get phone field and append to list
-            scores.add((Long) rating.get("score"));
-        }
-
-        double score = getScore(scores);
-
-        TextView bioRating = (TextView) mView.findViewById(R.id.bioRating);
-        DecimalFormat df = new DecimalFormat("#.#");
-        bioRating.setText(df.format(score));
-    }
 
     @Override
     public void onPause() {
@@ -375,15 +366,6 @@ public class MovieFragment extends Fragment {
     }
 
 
-    public double getScore(ArrayList<Long> scores){
-        System.out.println("size " + scores.size());
-        double score = 0.0;
-        for(int i = 0; i < scores.size(); i++){
-            score += scores.get(i);
-        }
-        score = score/scores.size();
-        return score;
-    }
 
 
 
@@ -443,13 +425,5 @@ public class MovieFragment extends Fragment {
     }
 
 
-
-    public double getRating() {
-        return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
 
 }

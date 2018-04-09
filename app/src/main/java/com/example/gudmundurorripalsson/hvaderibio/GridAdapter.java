@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
 /**
  * Created by Helgi on 23/03/2018.
  */
@@ -24,15 +26,17 @@ public class GridAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private String[] titles;
     private String[] images;
-    private String[] ratings;
+    private String[] imdbRatings;
+    private ArrayList<String> bioRatings;
     View view;
     LayoutInflater layoutInflater;
 
-    public GridAdapter(Context context, String[] images, String[] titles, String[] ratings) {
+    public GridAdapter(Context context, String[] images, String[] titles, String[] imdbRatings, ArrayList<String> bioRatings) {
         this.context = context;
         this.titles = titles;
         this.images = images;
-        this.ratings = ratings;
+        this.imdbRatings = imdbRatings;
+        this.bioRatings = bioRatings;
         inflater = LayoutInflater.from(context);
     }
 
@@ -64,11 +68,14 @@ public class GridAdapter extends BaseAdapter {
         titleView.setTransitionName(String.valueOf(position) + "_title");
         TextView ratingView = (TextView) view.findViewById(R.id.rating);
         ratingView.setTransitionName(String.valueOf(position) + "_rating");
+        TextView bioRatingView = (TextView) view.findViewById(R.id.bioRating);
         ImageView starView = (ImageView) view.findViewById(R.id.star);
         starView.setTransitionName(String.valueOf(position) + "_star");
         Picasso.with(context).load(images[position]).into(imageView);
         titleView.setText(titles[position]);
-        ratingView.setText(ratings[position]);
+        ratingView.setText(imdbRatings[position]);
+        if(bioRatings.size() > position)
+            bioRatingView.setText(bioRatings.get(position));
         /* Checkmark animation
         ImageView checkmark = (ImageView) view.findViewById(R.id.checkmark);
         checkmark.setVisibility(View.VISIBLE);

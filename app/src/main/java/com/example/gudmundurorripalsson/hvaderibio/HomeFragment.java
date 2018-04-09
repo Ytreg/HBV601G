@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.Image;
 import android.os.Build;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -21,12 +22,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Helgi on 24/03/2018.
@@ -38,6 +47,9 @@ public class HomeFragment extends Fragment {
     private GridView gridView;
     private View mView;
     private JSONArray moviesArray;
+    private Score score;
+    private Movie[] movies;
+    private ArrayList<String> bioRating = new ArrayList<String>();
     AnimationDrawable animation;
 
     public static final String TAG = HomeFragment.class.getSimpleName();
@@ -47,26 +59,60 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        score = new Score();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference mRef = database.getReference().child("Movies");
+        mRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Get map of users in datasnapshot
+                        ArrayList<Double> ratings = score.collectRatings((Map<String,Object>) dataSnapshot.getValue());
+                        DecimalFormat df = new DecimalFormat("#.#");
+                        System.out.println("ratingssize " + ratings.size());
+                        for(int i = 0; i < ratings.size(); i++){
+                            bioRating.add(df.format(ratings.get(i)));
+                        }
+
+                        try {
+                            String json = getArguments().getString("json");
+                            try {
+                                JSONArray jsonArray = new JSONArray(json);
+                                updateMovieList(jsonArray);
+                            } catch (JSONException e) {
+                                Log.e(TAG, "Exception caught: ", e);
+                            }
+                        } catch (NullPointerException e) {
+                            Log.e(TAG, "Exception caught: ", e);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //handle databaseError
+                    }
+                });
+
         ImageView loading = (ImageView) mView.findViewById(R.id.loading);
         animation = (AnimationDrawable) loading.getDrawable();
         animation.start();
-        try {
-            String json = getArguments().getString("json");
-            try {
-                JSONArray jsonArray = new JSONArray(json);
-                updateMovieList(jsonArray);
-            } catch (JSONException e) {
-                Log.e(TAG, "Exception caught: ", e);
-            }
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Exception caught: ", e);
-        }
+
+
         return mView;
     }
 
+
+
     public void updateMovieList(JSONArray json) {
+
 
         animation.stop();
 
@@ -75,7 +121,7 @@ public class HomeFragment extends Fragment {
 
         moviesArray = json;
 
-        final Movie[] movies = new Movie[json.length()];
+        movies = new Movie[json.length()];
         for (int i = 0; i < json.length(); i++) {
             try {
                 JSONObject j = json.getJSONObject(i);
@@ -101,7 +147,7 @@ public class HomeFragment extends Fragment {
         }
 
         gridView = (GridView) mView.findViewById(R.id.simpleGridView);
-        GridAdapter gridAdapter = new GridAdapter(getContext(), posters, titles, ratings);
+        GridAdapter gridAdapter = new GridAdapter(getContext(), posters, titles, ratings, bioRating);
         gridView.setAdapter(gridAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

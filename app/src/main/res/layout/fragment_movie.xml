@@ -17,10 +17,10 @@
         <TextView
             android:id="@+id/movieTitle"
             android:layout_width="214dp"
-            android:layout_height="wrap_content"
+            android:layout_height="21dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="68dp"
             android:gravity="center"
             android:transitionName="movieTitle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,35 +28,38 @@
             app:layout_constraintTop_toBottomOf="@+id/showtimes"
             tools:text="Title" />
 
-    <TextView
-        android:id="@+id/movieDescr"
-        android:layout_width="313dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/director"
-        app:layout_constraintVertical_bias="0.102"
-        tools:text="Movie description" />
+        <TextView
+            android:id="@+id/movieDescr"
+            android:layout_width="313dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.509"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/director"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="Movie description" />
 
         <TextView
             android:id="@+id/imdbRating"
             android:layout_width="29dp"
             android:layout_height="32dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="56dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:transitionName="movieRating"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.387"
+            app:layout_constraintHorizontal_bias="0.369"
             app:layout_constraintStart_toEndOf="@+id/showtimes"
-            app:layout_constraintTop_toBottomOf="@+id/videoView"
+            app:layout_constraintTop_toBottomOf="@+id/movieImage"
+            app:layout_constraintVertical_bias="0.0"
             tools:text="7.7" />
 
 
@@ -64,34 +67,39 @@
             android:id="@+id/showtimes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="@string/syningartimar"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/videoView" />
+            app:layout_constraintTop_toBottomOf="@+id/videoView"
+            app:layout_constraintVertical_bias="0.022" />
 
 
         <ImageView
             android:id="@+id/movieCertificate"
             android:layout_width="35dp"
             android:layout_height="35dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:contentDescription="@string/aldurstakmark"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/showtimes"
-            app:layout_constraintHorizontal_bias="0.14"
+            app:layout_constraintHorizontal_bias="0.09"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/videoView" />
+            app:layout_constraintTop_toBottomOf="@+id/videoView"
+            app:layout_constraintVertical_bias="0.0" />
 
 
         <ImageButton
             android:id="@+id/imdbButton"
             android:layout_width="48dp"
             android:layout_height="36dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
@@ -99,9 +107,12 @@
             android:contentDescription="@string/link_yfir_a_imdb_sidu_myndar"
             android:scaleType="centerCrop"
             android:transitionName="star"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.619"
             app:layout_constraintStart_toEndOf="@+id/imdbRating"
-            app:layout_constraintTop_toBottomOf="@+id/videoView" />
+            app:layout_constraintTop_toBottomOf="@+id/videoView"
+            app:layout_constraintVertical_bias="0.0" />
 
 
         <fragment
@@ -149,64 +160,65 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@android:drawable/ic_media_play" />
 
-    <TextView
-        android:id="@+id/director"
-        android:layout_width="214dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/movieTitle"
-        tools:text="director" />
+        <TextView
+            android:id="@+id/director"
+            android:layout_width="214dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieTitle"
+            tools:text="director" />
 
-    <Button
-        android:id="@+id/buttonRate"
-        android:layout_width="62dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/gefa_einkun"
-        android:textSize="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.973"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonBio"
-        app:layout_constraintVertical_bias="0.01" />
+        <Button
+            android:id="@+id/buttonRate"
+            android:layout_width="74dp"
+            android:layout_height="49dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/gefa_einkun"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonBio"
+            app:layout_constraintHorizontal_bias="0.032"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/movieCertificate"
+            app:layout_constraintVertical_bias="0.086" />
 
-    <ImageButton
-        android:id="@+id/buttonBio"
-        android:layout_width="50dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/logo"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.95"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imdbButton" />
+        <ImageButton
+            android:id="@+id/buttonBio"
+            android:layout_width="48dp"
+            android:layout_height="45dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/logo"
+            android:text="Button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.951"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imdbButton"
+            app:layout_constraintVertical_bias="0.076" />
 
-    <TextView
-        android:id="@+id/bioRating"
-        android:layout_width="31dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/buttonBio"
-        app:layout_constraintHorizontal_bias="0.931"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imdbRating"
-        app:layout_constraintVertical_bias="0.0" />
+        <TextView
+            android:id="@+id/bioRating"
+            android:layout_width="29dp"
+            android:layout_height="24dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/buttonBio"
+            app:layout_constraintHorizontal_bias="0.952"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imdbRating"
+            app:layout_constraintVertical_bias="0.093" />
 
 
 </android.support.constraint.ConstraintLayout>
