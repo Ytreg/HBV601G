@@ -143,7 +143,7 @@ public class UserFragment extends Fragment implements
 
 
     private void signOut() {
-        firebaseAuth.signOut();
+        FirebaseAuth.getInstance().signOut();
         updateUI(null);
     }
 

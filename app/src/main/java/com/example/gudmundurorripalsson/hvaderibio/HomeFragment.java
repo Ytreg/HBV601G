@@ -122,26 +122,29 @@ public class HomeFragment extends Fragment {
                 });
         if(user != null) {
             DatabaseReference mUserRef = database.getReference().child("Users").child(username);
-            mUserRef.addListenerForSingleValueEvent(
-                    new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            //Get map of users in datasnapshot
-                            ratedMovies = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
 
-                        }
+                mUserRef.addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                //Get map of users in datasnapshot
+                                if(dataSnapshot.getValue() != null)
+                                    ratedMovies = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            //handle databaseError
-                        }
-                    });
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                //handle databaseError
+                            }
+                        });
+
         }
         ImageView loading = (ImageView) mView.findViewById(R.id.loading);
         animation = (AnimationDrawable) loading.getDrawable();
         animation.start();
-
         return mView;
+
     }
 
 
