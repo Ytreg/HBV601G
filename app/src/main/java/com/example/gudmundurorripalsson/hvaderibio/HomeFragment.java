@@ -59,8 +59,8 @@ public class HomeFragment extends Fragment {
     private Movie[] movies;
     private ArrayList<MovieScore> bioRating = new ArrayList<>();
     private ArrayList<Integer> ratedMovies = new ArrayList<>();
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private String username = user.getDisplayName();
+    private FirebaseUser user;
+    private String username;
     AnimationDrawable animation;
 
     public static final String TAG = HomeFragment.class.getSimpleName();
@@ -74,6 +74,9 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         score = new Score();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        if(user != null)
+            username = user.getDisplayName();
     }
 
     @Override
@@ -117,22 +120,23 @@ public class HomeFragment extends Fragment {
                         //handle databaseError
                     }
                 });
-        DatabaseReference mUserRef = database.getReference().child("Users").child(username);
-        mUserRef.addListenerForSingleValueEvent(
-                new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        //Get map of users in datasnapshot
-                       ratedMovies = score.collectMovieIds((Map<String,Object>) dataSnapshot.getValue());
+        if(user != null) {
+            DatabaseReference mUserRef = database.getReference().child("Users").child(username);
+            mUserRef.addListenerForSingleValueEvent(
+                    new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            //Get map of users in datasnapshot
+                            ratedMovies = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
 
-                    }
+                        }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        //handle databaseError
-                    }
-                });
-
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            //handle databaseError
+                        }
+                    });
+        }
         ImageView loading = (ImageView) mView.findViewById(R.id.loading);
         animation = (AnimationDrawable) loading.getDrawable();
         animation.start();
