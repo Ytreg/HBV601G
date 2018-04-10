@@ -176,13 +176,15 @@ public class MovieFragment extends Fragment {
                     int movieID = movie.getId();
                     String poster = movie.getPoster();
                     View posterView = mView.findViewById(R.id.movieImage);
+
                     RateFragment rateFragment = new RateFragment(movieID, username, poster);
                     Bundle bundle = new Bundle();
                     bundle.putString("movie", arg);
                     rateFragment.setArguments(bundle);
 
-                    int FADE_DEFAULT_TIME = 300;
-                    int MOVE_DEFAULT_TIME = 300;
+                    int FADE_DEFAULT_TIME = 250;
+                    int MOVE_DEFAULT_TIME = 250;
+
                     // Virkar bara fyrir API sem eru 21+
 
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
@@ -191,7 +193,7 @@ public class MovieFragment extends Fragment {
                         // 1. Exit for Previous Fragment
                         Fade exitFade = new Fade();
                         exitFade.setDuration(FADE_DEFAULT_TIME + MOVE_DEFAULT_TIME);
-                        rateFragment.setExitTransition(exitFade);
+                        //rateFragment.setExitTransition(exitFade);
 
                         // 2. Shared Elements Transition
                         TransitionSet enterTransitionSet = new TransitionSet();
@@ -204,7 +206,7 @@ public class MovieFragment extends Fragment {
                         Fade enterFade = new Fade();
                         enterFade.setStartDelay(FADE_DEFAULT_TIME + MOVE_DEFAULT_TIME);
                         enterFade.setDuration(FADE_DEFAULT_TIME);
-                        rateFragment.setEnterTransition(enterFade);
+                        //rateFragment.setEnterTransition(enterFade);
 
                     }
                     System.out.println(posterView.getTransitionName());
@@ -237,6 +239,9 @@ public class MovieFragment extends Fragment {
                         try {
                             List<String> videoList = new ArrayList<>();
                             JSONArray trailers = json.getJSONArray("trailers").getJSONObject(0).getJSONArray("results");
+                            if (trailers.length() == 0) {
+                                throw new JSONException("No trailers");
+                            }
                             for (int i = 0; i < trailers.length(); i++) {
                                 String video = trailers.getJSONObject(i).getString("url");
                                 videoList.add(video.substring(30, 41));
@@ -398,13 +403,8 @@ public class MovieFragment extends Fragment {
             // String text = getString(R.string.leikstjorar, directors.get(0));
             for (int i = 1; i < directorsSize - 1; i++) {
                 directorList.append(", ").append(directors.get(i));
-                /*if (i == directors.size() - 1) {
-                    text += getString(R.string.and) + directors.get(i);
-                } else {
-                    text += ", " + directors.get(i);
-                }*/
             }
-            directorList.append(getString(R.string.and)).append(directors.get(directorsSize - 1));
+            directorList.append(" " + getString(R.string.and) + " ").append(directors.get(directorsSize - 1));
             // directorView.setText(text);
             directorView.setText(getString(leikstjorar, directorList.toString()));
         } else

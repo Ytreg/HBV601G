@@ -34,10 +34,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeUnit.*;
 
 /**
  * Created by Helgi on 24/03/2018.
@@ -73,6 +79,19 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
+
+        try {
+            String json = getArguments().getString("json");
+            try {
+                JSONArray jsonArray = new JSONArray(json);
+                updateMovieList(jsonArray);
+            } catch (JSONException e) {
+                Log.e(TAG, "Exception caught: ", e);
+            }
+        } catch (NullPointerException e) {
+            Log.e(TAG, "Exception caught: ", e);
+        }
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRef = database.getReference().child("Movies");
         mRef.addListenerForSingleValueEvent(
@@ -80,21 +99,16 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //Get map of users in datasnapshot
+
                         ArrayList<MovieScore> ratings = score.collectRatings((Map<String,Object>) dataSnapshot.getValue());
-                        for(int i = 0; i < ratings.size(); i++){
+                        for(int i = 0; i < ratings.size(); i++) {
                             bioRating.add(ratings.get(i));
                         }
 
-                        try {
-                            String json = getArguments().getString("json");
-                            try {
-                                JSONArray jsonArray = new JSONArray(json);
-                                updateMovieList(jsonArray);
-                            } catch (JSONException e) {
-                                Log.e(TAG, "Exception caught: ", e);
-                            }
-                        } catch (NullPointerException e) {
-                            Log.e(TAG, "Exception caught: ", e);
+                        for (int i = 0; i < gridView.getChildCount(); i++) {
+                            View cell = gridView.getChildAt(i);
+                            TextView bioRatingView = (TextView) cell.findViewById(R.id.bioRating);
+                            bioRatingView.setText(String.valueOf(bioRating.get(i).getScore()));
                         }
                     }
 
@@ -122,7 +136,6 @@ public class HomeFragment extends Fragment {
         ImageView loading = (ImageView) mView.findViewById(R.id.loading);
         animation = (AnimationDrawable) loading.getDrawable();
         animation.start();
-
 
         return mView;
     }
@@ -207,7 +220,7 @@ public class HomeFragment extends Fragment {
                     // 1. Exit for Previous Fragment
                     Fade exitFade = new Fade();
                     exitFade.setDuration(FADE_DEFAULT_TIME + MOVE_DEFAULT_TIME);
-                    movieFragment.setExitTransition(exitFade);
+                    //movieFragment.setExitTransition(exitFade);
 
                     // 2. Shared Elements Transition
                     TransitionSet enterTransitionSet = new TransitionSet();
@@ -230,12 +243,15 @@ public class HomeFragment extends Fragment {
                 View sharedElement4 = view.findViewById(R.id.star);
                 // Do not change pls
                 sharedElement1.setTransitionName(position + "_image");
+                sharedElement2.setTransitionName(position + "_title");
+                sharedElement3.setTransitionName(position + "_rating");
+                sharedElement4.setTransitionName(position + "_star");
                 fragmentTransaction.addSharedElement(sharedElement1, "movieImage");
                 fragmentTransaction.addSharedElement(sharedElement2, "movieTitle");
                 fragmentTransaction.addSharedElement(sharedElement3, "movieRating");
                 fragmentTransaction.addSharedElement(sharedElement4, "star");
                 fragmentTransaction.replace(R.id.main_frame, movieFragment);
-                fragmentTransaction.addToBackStack(getClass().getName());
+                fragmentTransaction.addToBackStack(TAG);
                 fragmentTransaction.commit();
             }
 

@@ -111,7 +111,7 @@
     </RadioGroup>
 
     <ImageView
-        android:transitionName="movieImage"
+        android:transitionName="rateTransition"
         android:id="@+id/movieposter"
         android:layout_width="131dp"
         android:layout_height="177dp"
