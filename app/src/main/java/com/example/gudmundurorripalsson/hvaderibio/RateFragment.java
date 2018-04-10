@@ -74,15 +74,8 @@ public class RateFragment extends Fragment {
                     Review r = new Review(score, comment);
                     moviesRef.child(Integer.toString(movieID)).child(username).child("score").setValue(score);
                     usersRef.child(username).child(Integer.toString(movieID)).child("score").setValue(score);
-                    MovieFragment movieFragment = new MovieFragment();
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("movie", arg);
-                    movieFragment.setArguments(bundle);
-
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.main_frame, movieFragment);
-                    fragmentTransaction.commit();
+                    getActivity().onBackPressed();
                 }
                 else{
                     Toast.makeText(getContext(), "Vinsamlegast veljið einkunn",
