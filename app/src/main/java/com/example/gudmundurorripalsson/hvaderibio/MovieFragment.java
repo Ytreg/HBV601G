@@ -75,7 +75,7 @@ public class MovieFragment extends Fragment {
     private String arg;
     public Score score;
     private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private String username = user.getDisplayName();
+    private String username;
 
     // youtube player to play video when new video selected
     private YouTubePlayerSupportFragment youTubePlayerFragment;
@@ -99,6 +99,8 @@ public class MovieFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         score = new Score();
+        if(user != null)
+           username = user.getDisplayName();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
