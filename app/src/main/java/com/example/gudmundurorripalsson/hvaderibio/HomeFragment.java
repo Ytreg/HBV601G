@@ -1,6 +1,7 @@
 package com.example.gudmundurorripalsson.hvaderibio;
 
 import android.content.Intent;
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.AnimationDrawable;
 import android.media.Image;
 import android.os.Build;
@@ -74,15 +75,15 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         score = new Score();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        if(user != null)
-            username = user.getDisplayName();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
-
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        System.out.println("user " + user.getDisplayName());
+        if(user != null)
+            username = user.getDisplayName();
         try {
             String json = getArguments().getString("json");
             try {
@@ -102,16 +103,24 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //Get map of users in datasnapshot
+                        if(dataSnapshot.getValue() != null) {
+                            ArrayList<MovieScore> ratings = score.collectRatings((Map<String, Object>) dataSnapshot.getValue());
+                            for (int i = 0; i < ratings.size(); i++) {
+                                bioRating.add(ratings.get(i));
+                            }
 
-                        ArrayList<MovieScore> ratings = score.collectRatings((Map<String,Object>) dataSnapshot.getValue());
-                        for(int i = 0; i < ratings.size(); i++) {
-                            bioRating.add(ratings.get(i));
-                        }
-
-                        for (int i = 0; i < gridView.getChildCount(); i++) {
-                            View cell = gridView.getChildAt(i);
-                            TextView bioRatingView = (TextView) cell.findViewById(R.id.bioRating);
-                            bioRatingView.setText(String.valueOf(bioRating.get(i).getScore()));
+                            for (int i = 0; i < gridView.getChildCount(); i++) {
+                                View cell = gridView.getChildAt(i);
+                                int id = movies[i].getId();
+                                for(int j = 0; j < bioRating.size(); j++) {
+                                    System.out.println("id " + id + " " + bioRating.get(j).getId());
+                                    if (id == (bioRating.get(j).getId())){
+                                        TextView bioRatingView = (TextView) cell.findViewById(R.id.bioRating);
+                                        bioRatingView.setText(String.valueOf(bioRating.get(j).getScore()));
+                                        break;
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -130,7 +139,18 @@ public class HomeFragment extends Fragment {
                                 //Get map of users in datasnapshot
                                 if(dataSnapshot.getValue() != null)
                                     ratedMovies = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
-
+                                for (int i = 0; i < gridView.getChildCount(); i++) {
+                                    View cell = gridView.getChildAt(i);
+                                    int id = movies[i].getId();
+                                    for(int j = 0; j < ratedMovies.size(); j++) {
+                                        if (id == ratedMovies.get(j)){
+                                            ImageView checkmark = (ImageView) cell.findViewById(R.id.checkmark);
+                                            checkmark.setVisibility(View.VISIBLE);
+                                            ((Animatable) checkmark.getDrawable()).start();
+                                            break;
+                                        }
+                                    }
+                                }
                             }
 
                             @Override
@@ -188,7 +208,7 @@ public class HomeFragment extends Fragment {
         }
 
         gridView = (GridView) mView.findViewById(R.id.simpleGridView);
-        GridAdapter gridAdapter = new GridAdapter(getContext(), ids, posters, titles, ratings, bioRating, ratedMovies);
+        GridAdapter gridAdapter = new GridAdapter(getContext(), ids, posters, titles, ratings);
         gridView.setAdapter(gridAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

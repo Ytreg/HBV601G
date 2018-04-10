@@ -47,7 +47,7 @@ public class RateFragment extends Fragment {
     @SuppressLint("ValidFragment")
     public RateFragment(int movieID, String username, String poster) {
       this.movieID = movieID;
-
+      this.username = username;
       this.poster = poster;
     }
 

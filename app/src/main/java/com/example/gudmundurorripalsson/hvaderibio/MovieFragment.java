@@ -74,7 +74,7 @@ public class MovieFragment extends Fragment {
     private FirebaseDatabase database;
     private String arg;
     public Score score;
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private FirebaseUser user;
     private String username;
 
     // youtube player to play video when new video selected
@@ -99,11 +99,14 @@ public class MovieFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         score = new Score();
-        if(user != null)
-           username = user.getDisplayName();
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        System.out.println("userino " + user);
+        if(user != null)
+            username = user.getDisplayName();
+        System.out.println("username " + username);
         mView = inflater.inflate(R.layout.fragment_movie, container, false);
         arg = getArguments().getString("movie");
         try {
@@ -148,6 +151,7 @@ public class MovieFragment extends Fragment {
                         //Get map of users in datasnapshot
                         if(dataSnapshot.getValue() != null) {
                             double rating = score.collectRating((Map<String, Object>) dataSnapshot.getValue());
+                            System.out.println("rating " + rating + " " + movie.getId());
                             TextView bioRating = (TextView) mView.findViewById(R.id.bioRating);
                             DecimalFormat df = new DecimalFormat("#.#");
                             bioRating.setText(df.format(rating));
