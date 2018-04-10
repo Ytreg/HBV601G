@@ -32,10 +32,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeUnit.*;
 
 /**
  * Created by Helgi on 24/03/2018.
@@ -68,6 +74,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
+
         try {
             String json = getArguments().getString("json");
             try {
@@ -79,7 +86,7 @@ public class HomeFragment extends Fragment {
         } catch (NullPointerException e) {
             Log.e(TAG, "Exception caught: ", e);
         }
-        /*
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRef = database.getReference().child("Movies");
         mRef.addListenerForSingleValueEvent(
@@ -93,6 +100,12 @@ public class HomeFragment extends Fragment {
                         for(int i = 0; i < ratings.size(); i++) {
                             bioRating.add(df.format(ratings.get(i)));
                         }
+
+                        for (int i = 0; i < gridView.getChildCount(); i++) {
+                            View cell = gridView.getChildAt(i);
+                            TextView bioRatingView = (TextView) cell.findViewById(R.id.bioRating);
+                            bioRatingView.setText(bioRating.get(i));
+                        }
                     }
 
                     @Override
@@ -100,12 +113,10 @@ public class HomeFragment extends Fragment {
                         //handle databaseError
                     }
                 });
-                */
 
         ImageView loading = (ImageView) mView.findViewById(R.id.loading);
         animation = (AnimationDrawable) loading.getDrawable();
         animation.start();
-
 
         return mView;
     }

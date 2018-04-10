@@ -232,6 +232,9 @@ public class MovieFragment extends Fragment {
                         try {
                             List<String> videoList = new ArrayList<>();
                             JSONArray trailers = json.getJSONArray("trailers").getJSONObject(0).getJSONArray("results");
+                            if (trailers.length() == 0) {
+                                throw new JSONException("No trailers");
+                            }
                             for (int i = 0; i < trailers.length(); i++) {
                                 String video = trailers.getJSONObject(i).getString("url");
                                 videoList.add(video.substring(30, 41));
