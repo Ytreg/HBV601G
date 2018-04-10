@@ -22,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,7 +51,10 @@ public class HomeFragment extends Fragment {
     private JSONArray moviesArray;
     private Score score;
     private Movie[] movies;
-    private ArrayList<String> bioRating = new ArrayList<String>();
+    private ArrayList<MovieScore> bioRating = new ArrayList<>();
+    private ArrayList<Integer> ratedMovies = new ArrayList<>();
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String username = user.getDisplayName();
     AnimationDrawable animation;
 
     public static final String TAG = HomeFragment.class.getSimpleName();
@@ -75,11 +80,9 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //Get map of users in datasnapshot
-                        ArrayList<Double> ratings = score.collectRatings((Map<String,Object>) dataSnapshot.getValue());
-                        DecimalFormat df = new DecimalFormat("#.#");
-                        System.out.println("ratingssize " + ratings.size());
+                        ArrayList<MovieScore> ratings = score.collectRatings((Map<String,Object>) dataSnapshot.getValue());
                         for(int i = 0; i < ratings.size(); i++){
-                            bioRating.add(df.format(ratings.get(i)));
+                            bioRating.add(ratings.get(i));
                         }
 
                         try {
@@ -93,6 +96,21 @@ public class HomeFragment extends Fragment {
                         } catch (NullPointerException e) {
                             Log.e(TAG, "Exception caught: ", e);
                         }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //handle databaseError
+                    }
+                });
+        DatabaseReference mUserRef = database.getReference().child("Users").child(username);
+        mUserRef.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Get map of users in datasnapshot
+                       ratedMovies = score.collectMovieIds((Map<String,Object>) dataSnapshot.getValue());
+
                     }
 
                     @Override
@@ -136,18 +154,21 @@ public class HomeFragment extends Fragment {
                 Log.e(TAG, "Exception caught: ", e);
             }
         }
-
+        Integer[] ids = new Integer[movies.length];
         String[] posters = new String[movies.length];
         String[] titles = new String[movies.length];
         String[] ratings = new String[movies.length];
         for (int i = 0; i < movies.length; i++){
+
+            ids[i] = movies[i].getId();
             posters[i] = movies[i].getPoster();
             titles[i] = movies[i].getTitle();
             ratings[i] = movies[i].getImdb();
+            System.out.println(titles[i] + " " + ids[i]);
         }
 
         gridView = (GridView) mView.findViewById(R.id.simpleGridView);
-        GridAdapter gridAdapter = new GridAdapter(getContext(), posters, titles, ratings, bioRating);
+        GridAdapter gridAdapter = new GridAdapter(getContext(), ids, posters, titles, ratings, bioRating, ratedMovies);
         gridView.setAdapter(gridAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

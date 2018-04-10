@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -24,19 +25,23 @@ public class GridAdapter extends BaseAdapter {
 
     Context context;
     private LayoutInflater inflater;
+    private Integer[] ids;
     private String[] titles;
     private String[] images;
     private String[] imdbRatings;
-    private ArrayList<String> bioRatings;
+    private ArrayList<MovieScore> bioRatings;
+    private ArrayList<Integer> ratedMovies;
     View view;
     LayoutInflater layoutInflater;
 
-    public GridAdapter(Context context, String[] images, String[] titles, String[] imdbRatings, ArrayList<String> bioRatings) {
+    public GridAdapter(Context context, Integer[] ids, String[] images, String[] titles, String[] imdbRatings, ArrayList<MovieScore> bioRatings, ArrayList<Integer> ratedMovies) {
+        this.ids = ids;
         this.context = context;
         this.titles = titles;
         this.images = images;
         this.imdbRatings = imdbRatings;
         this.bioRatings = bioRatings;
+        this.ratedMovies = ratedMovies;
         inflater = LayoutInflater.from(context);
     }
 
@@ -74,13 +79,23 @@ public class GridAdapter extends BaseAdapter {
         Picasso.with(context).load(images[position]).into(imageView);
         titleView.setText(titles[position]);
         ratingView.setText(imdbRatings[position]);
-        if(bioRatings.size() > position)
-            bioRatingView.setText(bioRatings.get(position));
-        /* Checkmark animation
-        ImageView checkmark = (ImageView) view.findViewById(R.id.checkmark);
-        checkmark.setVisibility(View.VISIBLE);
-        ((Animatable) checkmark.getDrawable()).start();
-        */
+        DecimalFormat df = new DecimalFormat("#.#");
+        for(int i = 0; i < bioRatings.size(); i++){
+            if(ids[position] == bioRatings.get(i).getId()){
+                bioRatingView.setText(df.format(bioRatings.get(i).getScore()));
+                break;
+            }
+        }
+        for(int i = 0; i < ratedMovies.size(); i++){
+            if(ids[position].equals(ratedMovies.get(i))){
+                //Checkmark animation
+                ImageView checkmark = (ImageView) view.findViewById(R.id.checkmark);
+                checkmark.setVisibility(View.VISIBLE);
+                ((Animatable) checkmark.getDrawable()).start();
+                break;
+            }
+        }
+
         return view;
     }
 }

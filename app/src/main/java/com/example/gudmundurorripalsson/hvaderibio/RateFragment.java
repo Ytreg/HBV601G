@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
 
 /**
  * Created by Ómar on 04/04/2018.
@@ -26,12 +30,14 @@ public class RateFragment extends Fragment {
     RadioButton checkedButton;
     private int score;
     private int movieID;
+    private String arg;
     String username;
     String poster;
     ImageView movieposter;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference moviesRef = database.getReference("Movies");
+    DatabaseReference usersRef = database.getReference("Users");
 
 
     public RateFragment() {
@@ -53,6 +59,7 @@ public class RateFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_rate, container, false);
+        arg = getArguments().getString("movie");
         setupUIViews();
 
 
@@ -60,15 +67,26 @@ public class RateFragment extends Fragment {
         rateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 checkedButton = (RadioButton)mView.findViewById(radiogroup1.getCheckedRadioButtonId());
-                score = Integer.parseInt(checkedButton.getText().toString());
-                String comment = "Great movie";
-                Review r = new Review(score, comment);
-                moviesRef.child(Integer.toString(movieID)).child(username).child("score").setValue(score);
+                if(checkedButton != null) {
+                    score = Integer.parseInt(checkedButton.getText().toString());
+                    String comment = "Great movie";
+                    Review r = new Review(score, comment);
+                    moviesRef.child(Integer.toString(movieID)).child(username).child("score").setValue(score);
+                    usersRef.child(username).child(Integer.toString(movieID)).child("score").setValue(score);
+                    MovieFragment movieFragment = new MovieFragment();
 
-                MovieFragment rateFragment = new MovieFragment();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.main_frame, rateFragment);
-                fragmentTransaction.commit();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("movie", arg);
+                    movieFragment.setArguments(bundle);
+
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.main_frame, movieFragment);
+                    fragmentTransaction.commit();
+                }
+                else{
+                    Toast.makeText(getContext(), "Vinsamlegast veljið einkunn",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

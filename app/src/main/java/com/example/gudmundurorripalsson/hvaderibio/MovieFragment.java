@@ -72,7 +72,10 @@ public class MovieFragment extends Fragment {
     private String cert;
     private JSONObject json;
     private FirebaseDatabase database;
+    private String arg;
     public Score score;
+    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+    private String username = user.getDisplayName();
 
     // youtube player to play video when new video selected
     private YouTubePlayerSupportFragment youTubePlayerFragment;
@@ -100,7 +103,7 @@ public class MovieFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_movie, container, false);
-        String arg = getArguments().getString("movie");
+        arg = getArguments().getString("movie");
         try {
             json = new JSONObject(arg);
         } catch (JSONException e) {
@@ -136,7 +139,6 @@ public class MovieFragment extends Fragment {
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference mRef = database.getReference().child("Movies").child(String.valueOf(movie.getId()));
-        System.out.println("movieid "  + movie.getId());
         mRef.addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -170,12 +172,15 @@ public class MovieFragment extends Fragment {
         Button rateButton = mView.findViewById(R.id.buttonRate);
         rateButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if(user != null){
                     int movieID = movie.getId();
                     String poster = movie.getPoster();
                     View posterView = mView.findViewById(R.id.movieImage);
-                    RateFragment rateFragment = new RateFragment(movieID, user.getDisplayName(), poster);
+                    RateFragment rateFragment = new RateFragment(movieID, username, poster);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("movie", arg);
+                    rateFragment.setArguments(bundle);
+
                     int FADE_DEFAULT_TIME = 300;
                     int MOVE_DEFAULT_TIME = 300;
                     // Virkar bara fyrir API sem eru 21+
