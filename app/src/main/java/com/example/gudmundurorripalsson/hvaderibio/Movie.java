@@ -17,6 +17,8 @@ public class Movie {
     private String cert;
     private String descr;
     private List<String> directors;
+    private List<String> theaters;
+    private int position;
 
     public Movie(int id, String title, String imdb, String poster, String cert, String descr, List<String> directors){
         this.id = id;
@@ -28,11 +30,13 @@ public class Movie {
         this.directors = directors;
     }
 
-    public Movie(int id, String title, String imdb, String poster){
+    public Movie(int id, String title, String imdb, String poster, List<String> theaters, int position){
         this.id = id;
         this.title = title;
         this.imdb = imdb;
         this.poster = poster;
+        this.theaters = theaters;
+        this.position = position;
     }
 
     public int getId(){
@@ -63,4 +67,11 @@ public class Movie {
         return directors;
     }
 
+    public List<String> getTheaters() {
+        return theaters;
+    }
+
+    public int getPosition() {
+        return position;
+    }
 }

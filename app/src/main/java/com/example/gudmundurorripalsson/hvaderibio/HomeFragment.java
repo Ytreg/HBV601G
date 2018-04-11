@@ -200,17 +200,26 @@ public class HomeFragment extends Fragment {
         for (int i = 0; i < json.length(); i++) {
             try {
                 JSONObject j = json.getJSONObject(i);
+                List<String> theaters = new ArrayList<>();
+                for (int k = 0; k < j.getJSONArray("showtimes").length(); k++) {
+                    theaters.add(j.getJSONArray("showtimes").getJSONObject(k).getJSONObject("cinema").getString("name"));
+                }
                 Movie movie = new Movie(
                         j.getInt("id"),
                         j.getString("title"),
                         j.getJSONObject("ratings").getString("imdb"),
-                        j.getString("poster")
+                        j.getString("poster"),
+                        theaters,
+                        i
                 );
                 movies[i] = movie;
             } catch (JSONException e) {
                 Log.e(TAG, "Exception caught: ", e);
             }
         }
+        // Sorterar myndir eftir bíóhúsum
+        //movies = SortMovies.sortTheater(movies, SortMovies.SORT_HASKOL);
+
         Integer[] ids = new Integer[movies.length];
         String[] posters = new String[movies.length];
         String[] titles = new String[movies.length];
@@ -248,7 +257,7 @@ public class HomeFragment extends Fragment {
 
                 try {
                     Bundle bundle = new Bundle();
-                    bundle.putString("movie", moviesArray.getJSONObject(position).toString());
+                    bundle.putString("movie", moviesArray.getJSONObject(movies[position].getPosition()).toString());
                     movieFragment.setArguments(bundle);
                 } catch (JSONException e) {
                     Log.e(TAG, "Exception caught: ", e);
