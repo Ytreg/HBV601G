@@ -58,6 +58,9 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment;
     private UserFragment userFragment;
     private SettingsFragment settingsFragment;
+
+
+    private boolean lightTheme;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("Reviews");
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -65,12 +68,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+
 
         homeFragment = new HomeFragment();
         userFragment = new UserFragment();
         settingsFragment = new SettingsFragment();
-
+        setContentView(R.layout.activity_main);
         userFragment.setUser(FirebaseAuth.getInstance().getCurrentUser());
 
         getMovies();
@@ -104,20 +108,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
 
 
-         myRef.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            // This method is called once with the initial value and again
-                                            // whenever data at this location is updated.
-                                            //Double value = dataSnapshot.getValue(double.class);
-                                        }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError error) {
-                                            // Failed to read value
-                                            Log.w(TAG, "Failed to read value.", error.toException());
-                                        }
-                                    });
     }
 
     // Remove inter-activity transition to avoid screen tossing on tapping bottom navigation items
@@ -205,6 +196,14 @@ public class MainActivity extends AppCompatActivity {
         boolean isAvailable = false;
         if (networkInfo != null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
+    }
+
+    public boolean isLightTheme() {
+        return lightTheme;
+    }
+
+    public void setLightTheme(boolean lightTheme) {
+        this.lightTheme = lightTheme;
     }
 
 

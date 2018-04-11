@@ -1,6 +1,7 @@
 package com.example.gudmundurorripalsson.hvaderibio;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -29,6 +30,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.concurrent.Executor;
+
+import static com.example.gudmundurorripalsson.hvaderibio.R.string.sIGN_OUT;
 
 public class UserFragment extends Fragment implements
         View.OnClickListener {
@@ -96,8 +99,8 @@ public class UserFragment extends Fragment implements
     }
 
     private void setAccountView(FirebaseUser user){
-        loginButton.setText("SIGN OUT");
-        info.setText(getString(R.string.welcome, user.getEmail()));
+        loginButton.setText(sIGN_OUT);
+        info.setText(getString(R.string.welcome, user.getDisplayName()));
         info.setVisibility(View.VISIBLE);
         username.setVisibility(View.INVISIBLE);
         email.setVisibility(View.INVISIBLE);
@@ -109,10 +112,15 @@ public class UserFragment extends Fragment implements
     }
 
     private void setupUIViews() {
+        int textColor = Color.rgb(131,148,150);
         username = (EditText) mView.findViewById(R.id.username);
+        username.setTextColor(textColor);
         email = (EditText) mView.findViewById(R.id.email);
+        email.setTextColor(textColor);
         password = (EditText) mView.findViewById(R.id.password);
+        password.setTextColor(textColor);
         password2 = (EditText) mView.findViewById(R.id.password2);
+        password2.setTextColor(textColor);
         info = mView.findViewById(R.id.info);
         loginButton = mView.findViewById(R.id.loginButton);
         signupRedirection = mView.findViewById(R.id.signupRedirection);

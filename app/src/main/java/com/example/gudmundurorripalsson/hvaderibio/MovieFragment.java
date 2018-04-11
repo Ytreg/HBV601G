@@ -32,6 +32,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -102,12 +103,11 @@ public class MovieFragment extends Fragment {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_movie, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        System.out.println("userino " + user);
         if(user != null)
             username = user.getDisplayName();
-        System.out.println("username " + username);
-        mView = inflater.inflate(R.layout.fragment_movie, container, false);
+
         arg = getArguments().getString("movie");
         try {
             json = new JSONObject(arg);

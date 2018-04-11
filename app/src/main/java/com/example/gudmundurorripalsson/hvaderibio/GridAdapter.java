@@ -29,12 +29,12 @@ public class GridAdapter extends BaseAdapter {
     private String[] titles;
     private String[] images;
     private String[] imdbRatings;
-    private ArrayList<MovieScore> bioRatings;
+    private Double[] bioRatings;
 
     View view;
     LayoutInflater layoutInflater;
 
-    public GridAdapter(Context context, Integer[] ids, String[] images, String[] titles, String[] imdbRatings) {
+    public GridAdapter(Context context, Integer[] ids, String[] images, String[] titles, String[] imdbRatings, Double[] bioRatings) {
         this.ids = ids;
         this.context = context;
         this.titles = titles;
@@ -78,7 +78,8 @@ public class GridAdapter extends BaseAdapter {
         Picasso.with(context).load(images[position]).into(imageView);
         titleView.setText(titles[position]);
         ratingView.setText(imdbRatings[position]);
-
+        if(bioRatings != null && bioRatings.length > 0)
+            bioRatingView.setText(String.valueOf(bioRatings[position]));
 
 
 

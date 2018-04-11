@@ -61,7 +61,10 @@ public class HomeFragment extends Fragment {
     private ArrayList<MovieScore> bioRating = new ArrayList<>();
     private ArrayList<Integer> ratedMovies = new ArrayList<>();
     private FirebaseUser user;
+    private DecimalFormat df = new DecimalFormat(".#");
     private String username;
+    JSONArray jsonArray;
+    Double[] bioRatings;
     AnimationDrawable animation;
 
     public static final String TAG = HomeFragment.class.getSimpleName();
@@ -81,13 +84,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
-        System.out.println("user " + user.getDisplayName());
         if(user != null)
             username = user.getDisplayName();
         try {
             String json = getArguments().getString("json");
             try {
-                JSONArray jsonArray = new JSONArray(json);
+                jsonArray = new JSONArray(json);
                 updateMovieList(jsonArray);
             } catch (JSONException e) {
                 Log.e(TAG, "Exception caught: ", e);
@@ -108,17 +110,20 @@ public class HomeFragment extends Fragment {
                             for (int i = 0; i < ratings.size(); i++) {
                                 bioRating.add(ratings.get(i));
                             }
-
-                            for (int i = 0; i < gridView.getChildCount(); i++) {
-                                View cell = gridView.getChildAt(i);
-                                int id = movies[i].getId();
-                                for(int j = 0; j < bioRating.size(); j++) {
-                                    System.out.println("id " + id + " " + bioRating.get(j).getId());
-                                    if (id == (bioRating.get(j).getId())){
-                                        TextView bioRatingView = (TextView) cell.findViewById(R.id.bioRating);
-                                        bioRatingView.setText(String.valueOf(bioRating.get(j).getScore()));
-                                        break;
+                            if(gridView != null) {
+                                bioRatings = new Double[gridView.getChildCount()];
+                                for (int i = 0; i < gridView.getChildCount(); i++) {
+                                    View cell = gridView.getChildAt(i);
+                                    int id = movies[i].getId();
+                                    for (int j = 0; j < bioRating.size(); j++) {
+                                        if (id == (bioRating.get(j).getId())) {
+                                            bioRatings[i] = bioRating.get(j).getScore();
+                                            TextView bioRatingView = (TextView) cell.findViewById(R.id.bioRating);
+                                            bioRatingView.setText(df.format(bioRating.get(j).getScore()));
+                                            break;
+                                        }
                                     }
+                                    System.out.println("yupp " + bioRatings.toString());
                                 }
                             }
                         }
@@ -139,15 +144,17 @@ public class HomeFragment extends Fragment {
                                 //Get map of users in datasnapshot
                                 if(dataSnapshot.getValue() != null)
                                     ratedMovies = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
-                                for (int i = 0; i < gridView.getChildCount(); i++) {
-                                    View cell = gridView.getChildAt(i);
-                                    int id = movies[i].getId();
-                                    for(int j = 0; j < ratedMovies.size(); j++) {
-                                        if (id == ratedMovies.get(j)){
-                                            ImageView checkmark = (ImageView) cell.findViewById(R.id.checkmark);
-                                            checkmark.setVisibility(View.VISIBLE);
-                                            ((Animatable) checkmark.getDrawable()).start();
-                                            break;
+                                if(gridView != null) {
+                                    for (int i = 0; i < gridView.getChildCount(); i++) {
+                                        View cell = gridView.getChildAt(i);
+                                        int id = movies[i].getId();
+                                        for (int j = 0; j < ratedMovies.size(); j++) {
+                                            if (id == ratedMovies.get(j)) {
+                                                ImageView checkmark = (ImageView) cell.findViewById(R.id.checkmark);
+                                                checkmark.setVisibility(View.VISIBLE);
+                                                ((Animatable) checkmark.getDrawable()).start();
+                                                break;
+                                            }
                                         }
                                     }
                                 }
@@ -170,8 +177,6 @@ public class HomeFragment extends Fragment {
 
 
     public void updateMovieList(JSONArray json) {
-
-
         animation.stop();
 
         ImageView loading = (ImageView) mView.findViewById(R.id.loading);
@@ -203,12 +208,13 @@ public class HomeFragment extends Fragment {
             ids[i] = movies[i].getId();
             posters[i] = movies[i].getPoster();
             titles[i] = movies[i].getTitle();
-            ratings[i] = movies[i].getImdb();
+            ratings[i] = df.format(Double.parseDouble(movies[i].getImdb()));
             System.out.println(titles[i] + " " + ids[i]);
         }
 
         gridView = (GridView) mView.findViewById(R.id.simpleGridView);
-        GridAdapter gridAdapter = new GridAdapter(getContext(), ids, posters, titles, ratings);
+        System.out.println("context " + getContext());
+        GridAdapter gridAdapter = new GridAdapter(getContext(), ids, posters, titles, ratings, bioRatings);
         gridView.setAdapter(gridAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

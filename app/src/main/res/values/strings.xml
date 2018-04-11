@@ -4,10 +4,9 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
 
-    <string name="link_yfir_imdb_s_u_myndar">Link yfir á IMDb síðu myndar</string>
-    <string name="s_ningat_mar">Sýningatímar</string>
-    <string name="l_sing_mynd">Lýsing á mynd</string>
-    <string name="setur_youtube_spilarann_gang">Setur youtube spilarann í gang</string>
+    <string name="link_yfir_imdb_s_u_myndar">Link to IMDb page</string>
+    <string name="l_sing_mynd">Description</string>
+    <string name="setur_youtube_spilarann_gang">Activate youtube player</string>
     <string name="link_yfir_a_imdb_sidu_myndar">IMDb Link</string>
     <string name="lysing_a_mynd">Description</string>
     <string name="setur_youtube_spilarann_i_gang">Starts Youtube Player</string>
@@ -30,5 +29,7 @@
     <string name="the_passwords_have_to_match">The passwords have to match</string>
     <string name="and">and</string>
     <string name="gefa_einkun">Rate movie</string>
+    <string name="sIGN_OUT">SIGN OUT</string>
+    <string name="s_ningat_mar">Showtimes</string>
 
 </resources>

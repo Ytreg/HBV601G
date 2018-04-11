@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Bíóhappið</string>
+    <string name="app_name">Bíóappið</string>
     <string name="title_home" translatable="false">Heim</string>
     <string name="link_yfir_a_imdb_sidu_myndar">Linkur yfir á IMDb-síðu myndar</string>
     <string name="aldurstakmark">aldurstakmark</string>
@@ -26,4 +26,9 @@
     <string name="the_passwords_have_to_match">Lykilorðin stemma ekki</string>
     <string name="and">og</string>
     <string name="gefa_einkun">Gefa Einkun</string>
+    <string name="sIGN_OUT">ÚTSKRÁ</string>
+    <string name="link_yfir_imdb_s_u_myndar">Link yfir á IMDb síðu myndar</string>
+    <string name="s_ningat_mar">Sýningatímar</string>
+    <string name="l_sing_mynd">Lýsing á mynd</string>
+    <string name="setur_youtube_spilarann_gang">Setur youtube spilarann í gang</string>
 </resources>
