@@ -38,20 +38,15 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                changeTheme();
-                getActivity().setTheme(getTheme() ? R.style.LightTheme : R.style.DarkTheme);
-                System.out.println(getActivity().getTheme().toString());
+                System.out.println("checked " + isChecked);
+                   getActivity().setTheme(!isChecked ? R.style.LightTheme : R.style.DarkTheme);
+                System.out.println("kappa " + getActivity().getTheme().toString());
             }
         });
+
 
         return mView;
     }
 
-    public boolean getTheme(){
-        return lightTheme;
-    }
-    public void changeTheme(){
-
-    }
 
 }

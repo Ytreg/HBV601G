@@ -107,23 +107,24 @@ public class HomeFragment extends Fragment {
                         //Get map of users in datasnapshot
                         if(dataSnapshot.getValue() != null) {
                             ArrayList<MovieScore> ratings = score.collectRatings((Map<String, Object>) dataSnapshot.getValue());
+                            bioRating.clear();
                             for (int i = 0; i < ratings.size(); i++) {
                                 bioRating.add(ratings.get(i));
                             }
-                            if(gridView != null) {
-                                bioRatings = new Double[gridView.getChildCount()];
-                                for (int i = 0; i < gridView.getChildCount(); i++) {
-                                    View cell = gridView.getChildAt(i);
-                                    int id = movies[i].getId();
-                                    for (int j = 0; j < bioRating.size(); j++) {
-                                        if (id == (bioRating.get(j).getId())) {
-                                            bioRatings[i] = bioRating.get(j).getScore();
+
+                            if (gridView != null) {
+                                for (int i = 0; i < bioRating.size(); i++) {
+                                    for(int j = 0; j < gridView.getChildCount(); j++) {
+                                        View cell = gridView.getChildAt(j);
+                                        int id = movies[j + gridView.getFirstVisiblePosition()].getId();
+                                        if (id == (bioRating.get(i).getId())){
                                             TextView bioRatingView = (TextView) cell.findViewById(R.id.bioRating);
-                                            bioRatingView.setText(df.format(bioRating.get(j).getScore()));
+                                            DecimalFormat df = new DecimalFormat("#.#");
+                                            bioRatingView.setText(String.valueOf(df.format(bioRating.get(i).getScore())));
+
                                             break;
                                         }
                                     }
-                                    System.out.println("yupp " + bioRatings.toString());
                                 }
                             }
                         }
@@ -142,24 +143,31 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 //Get map of users in datasnapshot
-                                if(dataSnapshot.getValue() != null)
-                                    ratedMovies = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
-                                if(gridView != null) {
-                                    for (int i = 0; i < gridView.getChildCount(); i++) {
-                                        View cell = gridView.getChildAt(i);
-                                        int id = movies[i].getId();
-                                        for (int j = 0; j < ratedMovies.size(); j++) {
-                                            if (id == ratedMovies.get(j)) {
-                                                ImageView checkmark = (ImageView) cell.findViewById(R.id.checkmark);
-                                                checkmark.setVisibility(View.VISIBLE);
-                                                ((Animatable) checkmark.getDrawable()).start();
-                                                break;
+                                if(dataSnapshot.getValue() != null) {
+                                    ArrayList<Integer> rated = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
+                                    ratedMovies.clear();
+                                    for (int i = 0; i < rated.size(); i++) {
+                                        ratedMovies.add(rated.get(i));
+                                    }
+
+                                    if (gridView != null) {
+                                        for (int i = 0; i < gridView.getChildCount(); i++) {
+                                            View cell = gridView.getChildAt(i);
+                                            int id = movies[i + gridView.getFirstVisiblePosition()].getId();
+                                            for(int j = 0; j < ratedMovies.size(); j++) {
+
+                                                if (id == ratedMovies.get(j)){
+                                                    ImageView checkmark = (ImageView) cell.findViewById(R.id.checkmark);
+                                                    checkmark.setVisibility(View.VISIBLE);
+
+                                                    ((Animatable) checkmark.getDrawable()).start();
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
                                 }
                             }
-
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
                                 //handle databaseError
@@ -209,12 +217,13 @@ public class HomeFragment extends Fragment {
             posters[i] = movies[i].getPoster();
             titles[i] = movies[i].getTitle();
             ratings[i] = df.format(Double.parseDouble(movies[i].getImdb()));
-            System.out.println(titles[i] + " " + ids[i]);
+
         }
 
         gridView = (GridView) mView.findViewById(R.id.simpleGridView);
-        System.out.println("context " + getContext());
-        GridAdapter gridAdapter = new GridAdapter(getContext(), ids, posters, titles, ratings, bioRatings);
+
+        GridAdapter gridAdapter = new GridAdapter(getContext(), ids, posters, titles, ratings, bioRating, ratedMovies);
+
         gridView.setAdapter(gridAdapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -274,15 +283,21 @@ public class HomeFragment extends Fragment {
                 View sharedElement2 = view.findViewById(R.id.title);
                 View sharedElement3 = view.findViewById(R.id.rating);
                 View sharedElement4 = view.findViewById(R.id.star);
+                View sharedElement5 = view.findViewById(R.id.bioRating);
+                View sharedElement6 = view.findViewById(R.id.bioLogo);
                 // Do not change pls
                 sharedElement1.setTransitionName(position + "_image");
                 sharedElement2.setTransitionName(position + "_title");
                 sharedElement3.setTransitionName(position + "_rating");
                 sharedElement4.setTransitionName(position + "_star");
+                sharedElement5.setTransitionName(position + "_bioRating");
+                sharedElement6.setTransitionName(position + "_bioLogo");
                 fragmentTransaction.addSharedElement(sharedElement1, "movieImage");
                 fragmentTransaction.addSharedElement(sharedElement2, "movieTitle");
                 fragmentTransaction.addSharedElement(sharedElement3, "movieRating");
                 fragmentTransaction.addSharedElement(sharedElement4, "star");
+                fragmentTransaction.addSharedElement(sharedElement5, "bioRating");
+                fragmentTransaction.addSharedElement(sharedElement6, "bioLogo");
                 fragmentTransaction.replace(R.id.main_frame, movieFragment);
                 fragmentTransaction.addToBackStack(TAG);
                 fragmentTransaction.commit();
