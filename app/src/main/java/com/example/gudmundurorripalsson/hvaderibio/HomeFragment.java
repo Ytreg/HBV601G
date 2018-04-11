@@ -104,10 +104,10 @@ public class HomeFragment extends Fragment {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //Get map of users in datasnapshot
                         if(dataSnapshot.getValue() != null) {
-                            ArrayList<MovieScore> ratings = score.collectRatings((Map<String, Object>) dataSnapshot.getValue());
+                            ArrayList<MovieScore> rating = score.collectRatings((Map<String, Object>) dataSnapshot.getValue());
                             bioRating.clear();
-                            for (int i = 0; i < ratings.size(); i++) {
-                                bioRating.add(ratings.get(i));
+                            for (int i = 0; i < rating.size(); i++) {
+                                bioRating.add(rating.get(i));
                             }
 
                             if (gridView != null) {
@@ -124,6 +124,8 @@ public class HomeFragment extends Fragment {
                                         }
                                     }
                                 }
+                            } else {
+                                System.out.println("oh boyos");
                             }
                         }
                     }
@@ -142,7 +144,11 @@ public class HomeFragment extends Fragment {
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 //Get map of users in datasnapshot
                                 if(dataSnapshot.getValue() != null) {
-                                    ratedMovies = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
+                                    ArrayList<Integer> rated = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
+                                    ratedMovies.clear();
+                                    for (int i = 0; i < rated.size(); i++) {
+                                        ratedMovies.add(rated.get(i));
+                                    }
                                     if (gridView != null) {
                                         for (int i = 0; i < gridView.getChildCount(); i++) {
                                             View cell = gridView.getChildAt(i);
@@ -157,6 +163,8 @@ public class HomeFragment extends Fragment {
                                                 }
                                             }
                                         }
+                                    } else {
+                                        System.out.println("oh boyos2");
                                     }
                                 }
                             }
