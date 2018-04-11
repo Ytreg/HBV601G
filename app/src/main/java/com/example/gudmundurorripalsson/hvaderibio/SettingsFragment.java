@@ -2,9 +2,12 @@ package com.example.gudmundurorripalsson.hvaderibio;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,15 +34,26 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        System.out.println("theme " + lightTheme);
         themeButton = mView.findViewById(R.id.nightModeButton);
+
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            themeButton.setChecked(true);
+        }
 
         themeButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 System.out.println("checked " + isChecked);
-                   getActivity().setTheme(!isChecked ? R.style.LightTheme : R.style.DarkTheme);
+                if (isChecked) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                }
+
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+
                 System.out.println("kappa " + getActivity().getTheme().toString());
             }
         });
