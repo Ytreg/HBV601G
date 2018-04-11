@@ -93,7 +93,7 @@ public class GridAdapter extends BaseAdapter {
         }
 
         for (int i = 0; i < ratedMovies.size(); i++) {
-   
+
             if (ratedMovies.get(i).equals(ids[position])) {
                 ImageView checkmark = (ImageView) view.findViewById(R.id.checkmark);
                 checkmark.setVisibility(View.VISIBLE);
