@@ -3,137 +3,194 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginTop="10dp"
     android:orientation="vertical"
-    tools:context="com.example.gudmundurorripalsson.hvaderibio.Fragments.SettingsFragment">
+    tools:context="com.example.gudmundurorripalsson.hvaderibio.SettingsFragment">
 
     <TextView
         android:id="@+id/textViewDisplaySettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/display_settings"
+        android:background="@drawable/border"
+        android:text="Display settings"
+        android:textSize="20dp"
+        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-        <Switch
-            android:id="@+id/switchNightMode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/night_mode" />
+
+    <Switch
+        android:id="@+id/themeButton"
+        android:layout_width="match_parent"
+        android:layout_height="81dp"
+        android:text="Night mode" />
 
     <TextView
         android:id="@+id/textViewFilters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/filters"
+        android:background="@drawable/border"
+        android:text="Filters"
+        android:textSize="20dp"
+        android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
 
-        <TextView
-            android:id="@+id/textViewIMDbRating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/imdb_rating" />
+    <TextView
+        android:id="@+id/textViewIMDbRating"
+        android:layout_width="match_parent"
+        android:layout_height="81dp"
+        android:gravity="center_vertical"
+        android:text="IMDb rating" />
 
-        <SeekBar
-            android:id="@+id/seekBarIMDbRating"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="10"
-            android:progress="5" />
+    <SeekBar
+        android:id="@+id/seekBarIMDbRating"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:progress="5" />
 
-        <TextView
-            android:id="@+id/textViewAgeLimit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/age_limit" />
+    <TextView
+        android:id="@+id/textViewAgeLimit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Age limit" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonAgeLimit0"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            style="?android:attr/buttonBarStyle">
-
-            <Button
-                android:id="@+id/buttonAgeLimit0"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="0"
-                style="?android:attr/buttonBarButtonStyle" />
-
-            <Button
-                android:id="@+id/buttonAgeLimit12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="12+"
-                style="?android:attr/buttonBarButtonStyle"/>
-
-            <Button
-                android:id="@+id/buttonAgeLimit16"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="16+"
-                style="?android:attr/buttonBarButtonStyle"/>
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textViewCinemas"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="@string/cinemas" />
+            android:text="0" />
 
-        <CheckBox
-            android:id="@+id/checkBoxAlfabakki"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Álfabakki" />
+        <Button
+            android:id="@+id/buttonAgeLimit12"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="12+" />
 
-        <CheckBox
-            android:id="@+id/checkBoxBioParadis"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Bíó Paradís" />
-        <CheckBox
-            android:id="@+id/checkBoxBorgarbio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Borgarbíó" />
+        <Button
+            android:id="@+id/buttonAgeLimit16"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="16+" />
 
-        <CheckBox
-            android:id="@+id/checkBoxEgilsholl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Egilshöll" />
-        <CheckBox
-            android:id="@+id/checkBoxHaskolabio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Háskólabíó" />
+    </LinearLayout>
 
-        <CheckBox
-            android:id="@+id/checkBoxKringlubio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Kringlubíó" />
-        <CheckBox
-            android:id="@+id/checkBoxLaugarasbio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Laugarásbíó" />
+    <TextView
+        android:id="@+id/Cinemas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cinemas" />
 
-        <CheckBox
-            android:id="@+id/checkBoxAkureyri"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sambíóin Akureyri" />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
-        <CheckBox
-            android:id="@+id/checkBoxKeflavik"
+        <TableRow
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Sambíóin Keflavík" />
+            android:layout_height="match_parent" >
+
+            <CheckBox
+                android:id="@+id/checkBoxAlfabakki"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Álfabakki" />
+
+            <CheckBox
+                android:id="@+id/checkBoxBioParadis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Bíó Paradís" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <CheckBox
+                android:id="@+id/checkBoxBorgarbio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Borgarbíó" />
+
+            <CheckBox
+                android:id="@+id/checkBoxEgilsholl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Egilshöll" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/checkBoxHaskolabio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Háskólabíó" />
+
+            <CheckBox
+                android:id="@+id/checkBoxKringlubio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kringlubíó" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/checkBoxLaugarasbio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Laugarásbíó" />
+
+            <CheckBox
+                android:id="@+id/checkBoxAkureyri"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sambíóin Akureyri" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <CheckBox
+                android:id="@+id/checkBoxKeflavik"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sambíóin Keflavík" />
+        </TableRow>
+
+    </TableLayout>
 
 </LinearLayout>

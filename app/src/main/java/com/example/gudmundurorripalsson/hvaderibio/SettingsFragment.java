@@ -13,13 +13,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.ToggleButton;
 
 
 public class SettingsFragment extends Fragment {
 
     private View mView;
-    private ToggleButton themeButton;
+    private Switch themeButton;
     private boolean lightTheme = true;
 
     public SettingsFragment() {
@@ -33,8 +34,9 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
+        themeButton = (Switch) mView.findViewById(R.id.themeButton);
 
-        themeButton = mView.findViewById(R.id.nightModeButton);
+        //themeButton = mView.findViewById(R.id.nightModeButton);
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             themeButton.setChecked(true);
@@ -44,7 +46,6 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                System.out.println("checked " + isChecked);
                 if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                 } else {
@@ -54,9 +55,10 @@ public class SettingsFragment extends Fragment {
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);
 
-                System.out.println("kappa " + getActivity().getTheme().toString());
             }
         });
+
+        
 
 
         return mView;
