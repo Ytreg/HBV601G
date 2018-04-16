@@ -1,43 +1,139 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.gudmundurorripalsson.hvaderibio.SettingsFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-
-    <ToggleButton
-        android:id="@+id/nightModeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="228dp"
-        android:layout_marginTop="60dp"
-        android:text="ToggleButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.866"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.088" />
+    android:orientation="vertical"
+    tools:context="com.example.gudmundurorripalsson.hvaderibio.Fragments.SettingsFragment">
 
     <TextView
-        android:id="@+id/nightModeTextView"
-        android:layout_width="145dp"
-        android:layout_height="44dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="Nightmode"
-        android:textSize="25dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/nightModeButton"
-        app:layout_constraintHorizontal_bias="0.453"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.195" />
-</android.support.constraint.ConstraintLayout>
+        android:id="@+id/textViewDisplaySettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/display_settings"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <Switch
+            android:id="@+id/switchNightMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/night_mode" />
+
+    <TextView
+        android:id="@+id/textViewFilters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/filters"
+        android:textAppearance="@style/TextAppearance.AppCompat.Subhead" />
+
+        <TextView
+            android:id="@+id/textViewIMDbRating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/imdb_rating" />
+
+        <SeekBar
+            android:id="@+id/seekBarIMDbRating"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="10"
+            android:progress="5" />
+
+        <TextView
+            android:id="@+id/textViewAgeLimit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/age_limit" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            style="?android:attr/buttonBarStyle">
+
+            <Button
+                android:id="@+id/buttonAgeLimit0"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="0"
+                style="?android:attr/buttonBarButtonStyle" />
+
+            <Button
+                android:id="@+id/buttonAgeLimit12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="12+"
+                style="?android:attr/buttonBarButtonStyle"/>
+
+            <Button
+                android:id="@+id/buttonAgeLimit16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="16+"
+                style="?android:attr/buttonBarButtonStyle"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewCinemas"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="@string/cinemas" />
+
+        <CheckBox
+            android:id="@+id/checkBoxAlfabakki"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Álfabakki" />
+
+        <CheckBox
+            android:id="@+id/checkBoxBioParadis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bíó Paradís" />
+        <CheckBox
+            android:id="@+id/checkBoxBorgarbio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Borgarbíó" />
+
+        <CheckBox
+            android:id="@+id/checkBoxEgilsholl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Egilshöll" />
+        <CheckBox
+            android:id="@+id/checkBoxHaskolabio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Háskólabíó" />
+
+        <CheckBox
+            android:id="@+id/checkBoxKringlubio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kringlubíó" />
+        <CheckBox
+            android:id="@+id/checkBoxLaugarasbio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Laugarásbíó" />
+
+        <CheckBox
+            android:id="@+id/checkBoxAkureyri"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sambíóin Akureyri" />
+
+        <CheckBox
+            android:id="@+id/checkBoxKeflavik"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sambíóin Keflavík" />
+
+</LinearLayout>
