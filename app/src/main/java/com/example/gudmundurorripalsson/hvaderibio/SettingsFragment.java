@@ -36,6 +36,12 @@ public class SettingsFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
         themeButton = (Switch) mView.findViewById(R.id.themeButton);
 
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
+        String theme = sharedPreferences.getString("nightMode", "false");
+        if (theme.equals("true")) {
+            themeButton.setChecked(true);
+        }
+
         //themeButton = mView.findViewById(R.id.nightModeButton);
 
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
@@ -46,11 +52,16 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences sharedPreferences = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (isChecked) {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    editor.putString("nightMode", "true");
                 } else {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    editor.putString("nightMode", "false");
                 }
+                editor.apply();
 
                 Intent intent = new Intent(getContext(), MainActivity.class);
                 startActivity(intent);

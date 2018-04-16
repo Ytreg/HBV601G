@@ -399,7 +399,13 @@ public class MovieFragment extends Fragment {
         Picasso.with(getContext()).load(movie.getPoster()).into(imageView);
         titleView.setText(movie.getTitle());
         descrView.setText(movie.getDescr());
-        imdbRatingView.setText(movie.getImdb());
+        String imdb;
+        if (movie.getImdb() == "null") {
+            imdb = "";
+        } else {
+            imdb = movie.getImdb();
+        }
+        imdbRatingView.setText(imdb);
         //bioRatingView.setText(value);
         Picasso.with(getContext()).load(movie.getCert()).into(certView);
         List<String> directors = movie.getDirectors();

@@ -230,7 +230,13 @@ public class HomeFragment extends Fragment {
             ids[i] = movies[i].getId();
             posters[i] = movies[i].getPoster();
             titles[i] = movies[i].getTitle();
-            ratings[i] = df.format(Double.parseDouble(movies[i].getImdb()));
+            String imdb;
+            if (movies[i].getImdb() == "null") {
+                imdb = "";
+            } else {
+                imdb = movies[i].getImdb();
+            }
+            ratings[i] = imdb;
 
         }
 

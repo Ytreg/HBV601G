@@ -71,7 +71,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+        SharedPreferences sharedPreferences = getSharedPreferences("settings", Context.MODE_PRIVATE);
+        String theme = sharedPreferences.getString("nightMode", "false");
+        if (theme.equals("true")) {
             setTheme(R.style.DarkTheme);
         } else {
             setTheme(R.style.LightTheme);
