@@ -399,10 +399,8 @@ public class MovieFragment extends Fragment {
         Picasso.with(getContext()).load(movie.getPoster()).into(imageView);
         titleView.setText(movie.getTitle());
         descrView.setText(movie.getDescr());
-        String imdb;
-        if (movie.getImdb() == "null") {
-            imdb = "";
-        } else {
+        String imdb = "";
+        if (!movie.getImdb().equals("null")) {
             imdb = movie.getImdb();
         }
         imdbRatingView.setText(imdb);

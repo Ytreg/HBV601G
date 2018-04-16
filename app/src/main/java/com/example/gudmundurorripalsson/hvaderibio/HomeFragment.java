@@ -230,14 +230,11 @@ public class HomeFragment extends Fragment {
             ids[i] = movies[i].getId();
             posters[i] = movies[i].getPoster();
             titles[i] = movies[i].getTitle();
-            String imdb;
-            if (movies[i].getImdb() == "null") {
-                imdb = "";
-            } else {
+            String imdb = "";
+            if (!movies[i].getImdb().equals("null")) {
                 imdb = movies[i].getImdb();
             }
             ratings[i] = imdb;
-
         }
 
         gridView = (GridView) mView.findViewById(R.id.simpleGridView);
