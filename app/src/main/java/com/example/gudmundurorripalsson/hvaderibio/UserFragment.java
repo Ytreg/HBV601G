@@ -3,18 +3,10 @@ package com.example.gudmundurorripalsson.hvaderibio;
 import android.app.Activity;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.transition.Fade;
-import android.transition.Slide;
-import android.transition.Transition;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -29,31 +21,28 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import java.util.concurrent.Executor;
-
-import static com.example.gudmundurorripalsson.hvaderibio.R.string.sIGN_OUT;
-
 public class UserFragment extends Fragment implements
         View.OnClickListener {
 
 
     private static final String TAG = "UserFragment";
     private EditText username, email, password, password2;
-    private TextView signupRedirection, info;
+    private TextView signupRedirection, welcome, info;
     private Button loginButton;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private Boolean loginState = true;
     private String viewState = "login";
     private View mView;
+    private int textColor;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_user, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
         setupUIViews();
-        setLoginView();
         updateUI(user);
 
         mView.findViewById(R.id.loginButton).setOnClickListener(this);
@@ -74,9 +63,9 @@ public class UserFragment extends Fragment implements
     private void setLoginView(){
         signupRedirection.setText(getString(R.string.new_user_sign_up));
         loginButton.setText(R.string.lOGIN);
+        welcome.setVisibility(View.INVISIBLE);
         info.setVisibility(View.INVISIBLE);
         username.setVisibility(View.INVISIBLE);
-
         email.setVisibility(View.VISIBLE);
         password.setVisibility(View.VISIBLE);
         password2.setVisibility(View.INVISIBLE);
@@ -88,6 +77,7 @@ public class UserFragment extends Fragment implements
     private void setSignupView(){
         signupRedirection.setText(R.string.already_Signed_Up);
         loginButton.setText(R.string.sIGNUP);
+        welcome.setVisibility(View.INVISIBLE);
         info.setVisibility(View.INVISIBLE);
         username.setVisibility(View.VISIBLE);
         email.setVisibility(View.VISIBLE);
@@ -99,8 +89,10 @@ public class UserFragment extends Fragment implements
     }
 
     private void setAccountView(FirebaseUser user){
-        loginButton.setText(sIGN_OUT);
-        info.setText(getString(R.string.welcome, user.getDisplayName()));
+        loginButton.setText(getString(R.string.sIGN_OUT));
+        welcome.setText(getString(R.string.welcome, user.getDisplayName()));
+        welcome.setVisibility(View.VISIBLE);
+        info.setText(getString(R.string.info));
         info.setVisibility(View.VISIBLE);
         username.setVisibility(View.INVISIBLE);
         email.setVisibility(View.INVISIBLE);
@@ -112,7 +104,7 @@ public class UserFragment extends Fragment implements
     }
 
     private void setupUIViews() {
-        int textColor = Color.rgb(131,148,150);
+        textColor = Color.rgb(131,148,150);
         username = (EditText) mView.findViewById(R.id.username);
         username.setTextColor(textColor);
         email = (EditText) mView.findViewById(R.id.email);
@@ -121,6 +113,7 @@ public class UserFragment extends Fragment implements
         password.setTextColor(textColor);
         password2 = (EditText) mView.findViewById(R.id.password2);
         password2.setTextColor(textColor);
+        welcome = mView.findViewById(R.id.welcome);
         info = mView.findViewById(R.id.info);
         loginButton = mView.findViewById(R.id.loginButton);
         signupRedirection = mView.findViewById(R.id.signupRedirection);
@@ -193,7 +186,7 @@ public class UserFragment extends Fragment implements
         if (i == R.id.loginButton) {
             String userName = email.getText().toString().trim();
             String userPassword = password.getText().toString().trim();
-            System.out.println("info: " + userName + " " + userPassword);
+            System.out.println("welcome: " + userName + " " + userPassword);
             if(viewState == "login") {
                 if(validateLogin()) {
                     signIn(userName, userPassword);

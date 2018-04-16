@@ -3,7 +3,6 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
-
     <string name="link_yfir_imdb_s_u_myndar">Link to IMDb page</string>
     <string name="l_sing_mynd">Description</string>
     <string name="setur_youtube_spilarann_gang">Activate youtube player</string>
@@ -31,5 +30,7 @@
     <string name="gefa_einkun">Rate movie</string>
     <string name="sIGN_OUT">SIGN OUT</string>
     <string name="s_ningat_mar">Showtimes</string>
+    <string name="info">Now you can rate movies that you have already seen</string>
+
 
 </resources>

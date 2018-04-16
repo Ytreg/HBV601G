@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     try {
+                                        Log.d(TAG, "jsondata " + jsonData);
                                         homeFragment.updateMovieList(new JSONArray(jsonData));
                                     } catch (JSONException e) {
                                         Log.e(TAG, "Exception caught " + e);
@@ -202,14 +203,6 @@ public class MainActivity extends AppCompatActivity {
         boolean isAvailable = false;
         if (networkInfo != null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
-    }
-
-    public boolean isLightTheme() {
-        return lightTheme;
-    }
-
-    public void setLightTheme(boolean lightTheme) {
-        this.lightTheme = lightTheme;
     }
 
 

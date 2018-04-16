@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment {
                                     }
                                 }
                             } else {
-                                System.out.println("oh boyos");
+                                Log.d(TAG, "gridView not ready");
                             }
                         }
                     }
@@ -137,20 +137,21 @@ public class HomeFragment extends Fragment {
                         //handle databaseError
                     }
                 });
-        if(user != null) {
+        if(username != null && user != null) {
             DatabaseReference mUserRef = database.getReference().child("Users").child(username);
-
+            System.out.println("username " + username + " user " + user.getEmail());
                 mUserRef.addListenerForSingleValueEvent(
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 //Get map of users in datasnapshot
                                 if(dataSnapshot.getValue() != null) {
-                                    ArrayList<Integer> rated = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
+                                    System.out.println("val " + dataSnapshot.getValue());
+                                    /*ArrayList<Integer> rated = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
                                     ratedMovies.clear();
                                     for (int i = 0; i < rated.size(); i++) {
                                         ratedMovies.add(rated.get(i));
-                                    }
+                                    }*/
 
                                     if (gridView != null) {
                                         for (int i = 0; i < gridView.getChildCount(); i++) {
@@ -168,7 +169,7 @@ public class HomeFragment extends Fragment {
                                             }
                                         }
                                     } else {
-                                        System.out.println("oh boyos2");
+                                        Log.d(TAG, "gridView not ready");
                                     }
                                 }
                             }
