@@ -9,4 +9,6 @@
     <color name="black">#000000</color>
     <color name="backgroundDark">#002b36</color>
     <color name="transparent">#80000000</color>
+    <color name="backgroundColorDark">#565454</color>
+    <color name="backgroundColorLight">#fcfcfc</color>
 </resources>

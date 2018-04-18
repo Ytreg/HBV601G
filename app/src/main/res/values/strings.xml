@@ -30,7 +30,7 @@
     <string name="gefa_einkun">Rate movie</string>
     <string name="sIGN_OUT">SIGN OUT</string>
     <string name="s_ningat_mar">Showtimes</string>
-    <string name="info">Now you can rate movies that you have already seen</string>
+    <string name="info">Now that you are logged in, you can rate movies that you have seen</string>
 
 
 </resources>

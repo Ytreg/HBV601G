@@ -6,13 +6,13 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="colorButtonNormal">@color/popup</item>
         <!-- enable window content transition -->
         <item name="android:windowActivityTransitions">true</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:windowAnimationStyle">@null</item>
-        <item name="backgroundcolor">#fcfcfc</item>
+        <item name="backgroundcolor">@color/backgroundColorLight</item>
         <item name="android:windowBackground">@color/white</item>
         <item name="android:textColorHint">@color/black</item>
         <item name="android:statusBarColor">@android:color/widget_edittext_dark</item>
@@ -23,7 +23,7 @@
         <item name="colorPrimary">@color/backgroundDark</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="backgroundcolor">#565454</item>
+        <item name="backgroundcolor">@color/backgroundColorDark</item>
         <item name="android:windowBackground">@color/black</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:windowActivityTransitions">true</item>
@@ -35,5 +35,6 @@
         <item name="android:textColorSecondary">@color/white</item>
         <item name="android:colorBackground">@color/backgroundDark</item>
     </style>
+
 
 </resources>

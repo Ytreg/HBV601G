@@ -70,8 +70,6 @@ public class RateFragment extends Fragment {
                 checkedButton = (RadioButton)mView.findViewById(radiogroup1.getCheckedRadioButtonId());
                 if(checkedButton != null) {
                     score = Integer.parseInt(checkedButton.getText().toString());
-                    String comment = "Great movie";
-                    Review r = new Review(score, comment);
                     moviesRef.child(Integer.toString(movieID)).child(username).child("score").setValue(score);
                     usersRef.child(username).child(Integer.toString(movieID)).child("score").setValue(score);
 
