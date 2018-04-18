@@ -41,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="81dp"
         android:gravity="center_vertical"
+        android:textSize="16dp"
         android:text="IMDb rating" />
 
     <SeekBar
@@ -49,66 +50,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="10"
-        android:progress="5" />
-
-    <TextView
-        android:id="@+id/textViewAgeLimit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Age limit" />
-
-    <LinearLayout
-        style="?android:attr/buttonBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/buttonAgeLimit0"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="0" />
-
-        <Button
-            android:id="@+id/buttonAgeLimit12"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="12+" />
-
-        <Button
-            android:id="@+id/buttonAgeLimit16"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="16+" />
-
-    </LinearLayout>
+        android:progress="0" />
 
     <TextView
         android:id="@+id/Cinemas"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_height="59dp"
+        android:textSize="16dp"
         android:text="Cinemas" />
 
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_weight="1">
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <CheckBox
                 android:id="@+id/checkBoxAlfabakki"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="Álfabakki" />
 
             <CheckBox
@@ -116,19 +82,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="Bíó Paradís" />
 
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent">
 
             <CheckBox
                 android:id="@+id/checkBoxBorgarbio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="Borgarbíó" />
 
             <CheckBox
@@ -136,6 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="Egilshöll" />
         </TableRow>
 
@@ -148,6 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="Háskólabíó" />
 
             <CheckBox
@@ -155,6 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="Kringlubíó" />
 
         </TableRow>
@@ -168,6 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="Laugarásbíó" />
 
             <CheckBox
@@ -175,8 +147,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:checked="true"
                 android:text="Sambíóin Akureyri" />
-
         </TableRow>
 
         <TableRow
@@ -187,8 +159,18 @@
                 android:id="@+id/checkBoxKeflavik"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:layout_weight="1"
                 android:text="Sambíóin Keflavík" />
+
+            <CheckBox
+                android:id="@+id/checkBoxSmarabio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:layout_weight="1"
+                android:text="Smárabíó" />
+
         </TableRow>
 
     </TableLayout>

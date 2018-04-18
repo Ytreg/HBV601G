@@ -57,14 +57,15 @@ public class HomeFragment extends Fragment {
     private View mView;
     private JSONArray moviesArray;
     private Score score;
+    private SortMovies sortMovies;
     private Movie[] movies;
     private ArrayList<MovieScore> bioRating = new ArrayList<>();
     private ArrayList<Integer> ratedMovies = new ArrayList<>();
     private FirebaseUser user;
     private DecimalFormat df = new DecimalFormat(".#");
     private String username;
+    private Filter filter = new Filter();
     JSONArray jsonArray;
-    Double[] bioRatings;
     AnimationDrawable animation;
 
     public static final String TAG = HomeFragment.class.getSimpleName();
@@ -78,10 +79,13 @@ public class HomeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         score = new Score();
+        sortMovies = new SortMovies();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        System.out.println("age " + filter.getAgeLimit() + " check " + filter.getCinemas()[0]);
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null)
@@ -218,8 +222,8 @@ public class HomeFragment extends Fragment {
                 Log.e(TAG, "Exception caught: ", e);
             }
         }
-        // Sorterar myndir eftir bíóhúsum
-        //movies = SortMovies.sortTheater(movies, SortMovies.SORT_HASKOL);
+        System.out.println("filter " + filter.getCinemas()[0]);
+        movies = SortMovies.sortTheater(movies, filter);
 
         Integer[] ids = new Integer[movies.length];
         String[] posters = new String[movies.length];
@@ -323,4 +327,7 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
 }

@@ -10,86 +10,46 @@ import java.util.List;
  */
 
 public class SortMovies {
+    public static String[] cinemaNames = new String[10];
 
-    public static final int SORT_EGILS = 0;
-    public static final int SORT_AKUR = 1;
-    public static final int SORT_KEFLA = 2;
-    public static final int SORT_KRINGLU = 3;
-    public static final int SORT_ALFA = 4;
-    public static final int SORT_BORGAR = 5;
-    public static final int SORT_SMARA = 6;
-    public static final int SORT_HASKOL = 7;
-    public static final int SORT_LAUGAR = 8;
+    public SortMovies(){
+        cinemaNames[0] = "Álfabakki";
+        cinemaNames[1] = "Borgarbíó";
+        cinemaNames[2] = "Bíó Paradís";
+        cinemaNames[3] = "Sambíóin Egilshöll";
+        cinemaNames[4] = "Háskólabíó";
+        cinemaNames[5] = "Kringlubíó";
+        cinemaNames[6] = "Laugarásbíó";
+        cinemaNames[7] = "Sambíóin, Akureyri";
+        cinemaNames[8] = "Sambíóin, Keflavík";
+        cinemaNames[9] = "Smárabíó";
 
-    public static Movie[] sortTheater(Movie[] movies, int theater) {
+    }
+
+    public static Movie[] sortTheater(Movie[] movies, Filter filter) {
+        Boolean[] cinemas = filter.getCinemas();
         List<Integer> validMovies = new ArrayList<>();
-        switch (theater) {
-            case SORT_EGILS:
-                for (int i = 0; i < movies.length; i++) {
-                    if (movies[i].getTheaters().contains("Sambíóin Egilshöll")) {
-                        validMovies.add(i);
+
+        for (int i = 0; i < movies.length; i++) {
+            double imdb;
+            if(movies[i].getImdb().equals("null"))
+                imdb = 0;
+            else {
+                imdb = Double.parseDouble(movies[i].getImdb());
+            }
+            if(imdb >= filter.getImdbRating()) {
+                for (int j = 0; j < cinemaNames.length; j++) {
+                    if(cinemas[j]) {
+                        if (movies[i].getTheaters().contains(cinemaNames[j])) {
+                            validMovies.add(i);
+                            break;
+                        }
                     }
                 }
-                break;
-            case SORT_AKUR:
-                for (int i = 0; i < movies.length; i++) {
-                    if (movies[i].getTheaters().contains("Sambíóin, Akureyri")) {
-                        validMovies.add(i);
-                    }
-                }
-                break;
-            case SORT_KEFLA:
-                for (int i = 0; i < movies.length; i++) {
-                    if (movies[i].getTheaters().contains("Sambíóin, Keflavík")) {
-                        validMovies.add(i);
-                    }
-                }
-                break;
-            case SORT_KRINGLU:
-                for (int i = 0; i < movies.length; i++) {
-                    if (movies[i].getTheaters().contains("Kringlubíó")) {
-                        validMovies.add(i);
-                    }
-                }
-                break;
-            case SORT_ALFA:
-                for (int i = 0; i < movies.length; i++) {
-                    if (movies[i].getTheaters().contains("Álfabakki")) {
-                        validMovies.add(i);
-                    }
-                }
-                break;
-            case SORT_BORGAR:
-                for (int i = 0; i < movies.length; i++) {
-                    if (movies[i].getTheaters().contains("Borgarbíó")) {
-                        validMovies.add(i);
-                    }
-                }
-                break;
-            case SORT_SMARA:
-                for (int i = 0; i < movies.length; i++) {
-                    if (movies[i].getTheaters().contains("Smárabíó")) {
-                        validMovies.add(i);
-                    }
-                }
-                break;
-            case SORT_HASKOL:
-                for (int i = 0; i < movies.length; i++) {
-                    if (movies[i].getTheaters().contains("Háskólabíó")) {
-                        validMovies.add(i);
-                    }
-                }
-                break;
-            case SORT_LAUGAR:
-                for (int i = 0; i < movies.length; i++) {
-                    if (movies[i].getTheaters().contains("Laugarásbíó")) {
-                        validMovies.add(i);
-                    }
-                }
-                break;
-            default:
-                return movies;
+            }
         }
+
+
         Movie[] newMovies = new Movie[validMovies.size()];
         for (int i = 0; i < newMovies.length; i++) {
             newMovies[i] = movies[validMovies.get(i)];

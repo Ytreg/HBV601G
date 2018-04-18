@@ -196,6 +196,8 @@
             android:layout_width="48dp"
             android:layout_height="45dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="16dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/logo"
@@ -203,26 +205,28 @@
             android:transitionName="bioLogo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.951"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imdbButton"
-            app:layout_constraintVertical_bias="0.076" />
+            app:layout_constraintVertical_bias="0.077" />
 
         <TextView
             android:id="@+id/bioRating"
             android:layout_width="29dp"
-            android:layout_height="24dp"
+            android:layout_height="40dp"
             android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:transitionName="bioRating"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toTopOf="@+id/movieTitle"
             app:layout_constraintEnd_toStartOf="@+id/buttonBio"
-            app:layout_constraintHorizontal_bias="0.952"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imdbRating"
-            app:layout_constraintVertical_bias="0.093" />
+            app:layout_constraintHorizontal_bias="0.958"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/buttonRate"
+            app:layout_constraintTop_toBottomOf="@+id/movieImage"
+            app:layout_constraintVertical_bias="0.787" />
 
 
 </android.support.constraint.ConstraintLayout>

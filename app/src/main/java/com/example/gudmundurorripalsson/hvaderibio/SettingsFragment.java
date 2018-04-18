@@ -28,12 +28,12 @@ public class SettingsFragment extends Fragment {
     private View mView;
     private Switch themeButton;
     private SeekBar imdbRatingSeekbar;
-    private Button ageLimit0, ageLimit12, ageLimit16;
-    private ArrayList<CheckBox> checkBoxes;
 
-    private int imdbRating, ageLimit;
-    private ArrayList<Boolean> cinemas;
-    private Filter filter;
+    private CheckBox[] checkBoxes;
+
+    private int imdbRating;
+    private Boolean[] cinemas = new Boolean[10];
+    private Filter filter = new Filter();
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -47,9 +47,8 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
         setupUIViews();
+        getCheckedBoxes();
 
-
-        filter = new Filter(imdbRating, ageLimit, cinemas);
         SharedPreferences sharedPreferences = getContext().getSharedPreferences("settings", Context.MODE_PRIVATE);
         String theme = sharedPreferences.getString("nightMode", "false");
         if (theme.equals("true")) {
@@ -60,7 +59,7 @@ public class SettingsFragment extends Fragment {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             themeButton.setChecked(true);
         }
-        setButtonBackgrounds(ageLimit, themeButton.isChecked());
+
         themeButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -89,7 +88,7 @@ public class SettingsFragment extends Fragment {
                     i = 1;
                 }
                 imdbRating = i;
-                filter = new Filter(imdbRating, ageLimit, cinemas);
+                filter.setImdbRating(imdbRating);
 
             }
 
@@ -104,104 +103,43 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        ageLimit0.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ageLimit = 0;
-                setButtonBackgrounds(ageLimit, themeButton.isChecked());
-                filter = new Filter(imdbRating, ageLimit, cinemas);
-            }
-        });
 
-        ageLimit12.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ageLimit = 12;
-                setButtonBackgrounds(ageLimit, themeButton.isChecked());
-                filter = new Filter(imdbRating, ageLimit, cinemas);
-            }
-        });
-
-        ageLimit16.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ageLimit = 16;
-                setButtonBackgrounds(ageLimit, themeButton.isChecked());
-                filter = new Filter(imdbRating, ageLimit, cinemas);
-            }
-        });
-
-        /*for(int i = 0; i < checkBoxes.size(); i++){
-            checkBoxes.get(i).setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        for(int i = 0; i < checkBoxes.length; i++){
+            checkBoxes[i].setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     getCheckedBoxes();
-                    filter = new Filter(imdbRating, ageLimit, cinemas);
                 }
             });
-        }*/
+        }
 
         return mView;
     }
 
-    private void setButtonBackgrounds(int ageLimit, boolean theme){
-        if(theme) {
-            if(ageLimit == 0) {
-                ageLimit0.setBackgroundColor(Color.DKGRAY);
-                ageLimit12.setBackgroundResource(R.color.backgroundColorDark);
-                ageLimit16.setBackgroundResource(R.color.backgroundColorDark);
-            }
-            else if(ageLimit == 12){
-                ageLimit12.setBackgroundColor(Color.DKGRAY);
-                ageLimit0.setBackgroundResource(R.color.backgroundColorDark);
-                ageLimit16.setBackgroundResource(R.color.backgroundColorDark);
-            }else if(ageLimit == 16){
-                ageLimit16.setBackgroundColor(Color.DKGRAY);
-                ageLimit12.setBackgroundResource(R.color.backgroundColorDark);
-                ageLimit0.setBackgroundResource(R.color.backgroundColorDark);
-            }
-        }
-        else{
-            if(ageLimit == 0) {
-                ageLimit0.setBackgroundColor(Color.GRAY);
-                ageLimit12.setBackgroundResource(R.color.backgroundColorLight);
-                ageLimit16.setBackgroundResource(R.color.backgroundColorLight);
-            }
-            else if(ageLimit == 12){
-                ageLimit12.setBackgroundColor(Color.GRAY);
-                ageLimit0.setBackgroundResource(R.color.backgroundColorLight);
-                ageLimit16.setBackgroundResource(R.color.backgroundColorLight);
-            }
-            else if(ageLimit == 16){
-                ageLimit16.setBackgroundColor(Color.GRAY);
-                ageLimit12.setBackgroundResource(R.color.backgroundColorLight);
-                ageLimit0.setBackgroundResource(R.color.backgroundColorLight);
-            }
-        }
-    }
 
     private void getCheckedBoxes(){
-        for(int i = 0; i < checkBoxes.size(); i++)
-            cinemas.add(checkBoxes.get(i).isChecked());
+        for(int i = 0; i < checkBoxes.length; i++) {
+            cinemas[i] = checkBoxes[i].isChecked();
+        }
+        filter.setCinemas(cinemas);
     }
 
     private void setupUIViews() {
         themeButton = (Switch) mView.findViewById(R.id.themeButton);
         imdbRatingSeekbar = (SeekBar) mView.findViewById(R.id.seekBarIMDbRating);
 
-        ageLimit0 = (Button) mView.findViewById(R.id.buttonAgeLimit0);
-        ageLimit12 = (Button) mView.findViewById(R.id.buttonAgeLimit12);
-        ageLimit16 = (Button) mView.findViewById(R.id.buttonAgeLimit16);
+        checkBoxes = new CheckBox[10];
+        checkBoxes[0] = (CheckBox) mView.findViewById(R.id.checkBoxAlfabakki);
+        checkBoxes[1] = (CheckBox) mView.findViewById(R.id.checkBoxBioParadis);
+        checkBoxes[2] = (CheckBox) mView.findViewById(R.id.checkBoxBorgarbio);
+        checkBoxes[3] = (CheckBox) mView.findViewById(R.id.checkBoxEgilsholl);
+        checkBoxes[4] = (CheckBox) mView.findViewById(R.id.checkBoxHaskolabio);
+        checkBoxes[5] = (CheckBox) mView.findViewById(R.id.checkBoxKringlubio);
+        checkBoxes[6] = (CheckBox) mView.findViewById(R.id.checkBoxLaugarasbio);
+        checkBoxes[7] = (CheckBox) mView.findViewById(R.id.checkBoxAkureyri);
+        checkBoxes[8] = (CheckBox) mView.findViewById(R.id.checkBoxKeflavik);
+        checkBoxes[9] = (CheckBox) mView.findViewById(R.id.checkBoxSmarabio);
 
-        System.out.println("check " + mView.findViewById(R.id.checkBoxAlfabakki));
-        /*checkBoxes.add((CheckBox) mView.findViewById(R.id.checkBoxBioParadis));
-        checkBoxes.add((CheckBox) mView.findViewById(R.id.checkBoxBorgarbio));
-        checkBoxes.add((CheckBox) mView.findViewById(R.id.checkBoxEgilsholl));
-        checkBoxes.add((CheckBox) mView.findViewById(R.id.checkBoxHaskolabio));
-        checkBoxes.add((CheckBox) mView.findViewById(R.id.checkBoxKringlubio));
-        checkBoxes.add((CheckBox) mView.findViewById(R.id.checkBoxLaugarasbio));
-        checkBoxes.add((CheckBox) mView.findViewById(R.id.checkBoxAkureyri));
-        checkBoxes.add((CheckBox) mView.findViewById(R.id.checkBoxKeflavik));*/
     }
 
 

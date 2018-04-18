@@ -79,9 +79,11 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.LightTheme);
         }
 
-        homeFragment = new HomeFragment();
+
         userFragment = new UserFragment();
         settingsFragment = new SettingsFragment();
+        homeFragment = new HomeFragment();
+        homeFragment.setFilter(settingsFragment.getFilter());
         setContentView(R.layout.activity_main);
         userFragment.setUser(FirebaseAuth.getInstance().getCurrentUser());
 
@@ -97,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
+                        homeFragment.setFilter(settingsFragment.getFilter());
+                        System.out.println("filterino " + settingsFragment.getFilter().getCinemas()[0]);
                         setFragment(homeFragment);
                         return true;
                     case R.id.navigation_account:
@@ -206,6 +210,7 @@ public class MainActivity extends AppCompatActivity {
         if (networkInfo != null && networkInfo.isConnected()) isAvailable = true;
         return isAvailable;
     }
+
 
 
 }
