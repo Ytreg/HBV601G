@@ -314,6 +314,7 @@ public class MovieFragment extends Fragment {
                         for (int j = 0; j < schedules.length(); j++) {
                             Button schedule = new Button(getContext());
                             schedule.setText(schedules.getJSONObject(j).getString("time"));
+                            schedule.setTextSize(13);
                             addUrlToBtn(schedule, schedules.getJSONObject(j).getString("purchase_url"));
                             schedule.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.showtime_button_background));
                             FlowLayout.LayoutParams scheduleLayout = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
