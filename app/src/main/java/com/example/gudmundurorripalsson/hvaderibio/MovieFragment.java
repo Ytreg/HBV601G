@@ -67,6 +67,14 @@ import static com.example.gudmundurorripalsson.hvaderibio.R.string.leikstjori;
  * Created by Helgi on 24/03/2018.
  */
 
+/**
+ * Þegar mynd er valinn af forsíðu opnast MovieFragment þar sem allar helstu upplýsingar um myndina
+ * er hægt að sjá svo sem lýsingu á mynd, sýngartíma, aldurstakmark og trailer. Þegar smellt er á
+ * "Rate Movie" er farið yfir á RateFragment. Þegar smellt er á "Showtimes" og sýningartími er valinn
+ * er farið yfir á vefsíðu fyrir miðasölu bíóhússins sem var valið. Þegar smellt er á imdb merkið er farið á
+ * imdb vefsíðu myndarinnar.
+ */
+
 public class MovieFragment extends Fragment {
 
     private Movie movie;
@@ -153,7 +161,6 @@ public class MovieFragment extends Fragment {
                         //Get map of users in datasnapshot
                         if(dataSnapshot.getValue() != null) {
                             double rating = score.collectRating((Map<String, Object>) dataSnapshot.getValue());
-                            System.out.println("rating " + rating + " " + movie.getId());
                             TextView bioRating = (TextView) mView.findViewById(R.id.bioRating);
                             DecimalFormat df = new DecimalFormat("#.#");
                             bioRating.setText(df.format(rating));

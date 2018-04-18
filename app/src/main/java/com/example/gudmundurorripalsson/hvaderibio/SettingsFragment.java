@@ -22,6 +22,15 @@ import android.widget.ToggleButton;
 
 import java.util.ArrayList;
 
+/**
+ * Created by Ómar on 24/03/2018.
+ */
+
+/**
+ * SettingsFragment birtist þegar notandi velur "Settings" í Bottom Navigation. Í Settings getur
+ * notandi valið Dark mode theme fyrir appið og valið hvaða myndir sjást á forsíðunni með tilliti
+ * til imdb einkunnar og í hvaða bíóhúsum myndir eru sýndar.
+ */
 
 public class SettingsFragment extends Fragment {
 

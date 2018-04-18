@@ -9,6 +9,10 @@ import java.util.List;
  * Created by Helgi on 11/04/2018.
  */
 
+/**
+ * Hjálparklasi sem síar myndalistann "movies" eftir ákveðnum Filter
+ */
+
 public class SortMovies {
     public static String[] cinemaNames = new String[10];
 

@@ -50,6 +50,14 @@ import java.util.concurrent.TimeUnit.*;
  * Created by Helgi on 24/03/2018.
  */
 
+/**
+ *  Fragment sem sýnir forsíðuna, hér er listi af bíómyndum sýndur sem uppfyllir síun(filtering)
+ *  skv. stillingum á SettingsFragment. Fyrir hverja bíómynd er sýnt forsíðumynd, Titill, einkunn
+ *  sem myndin fær frá notendum appsins, einkunn frá imdb og grænt merki birtist ofan á forsíðumyndina
+ *  ef notandinn er skráður inn og hefur gefið myndinni einkunn. Hægt er að scrolla niður og velja myndir.
+ *  Þegar mynd er valin opnast MovieFragment fyrir þá mynd.
+ */
+
 public class HomeFragment extends Fragment {
 
     private TextView mTextMessage;
@@ -85,7 +93,6 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        System.out.println("age " + filter.getAgeLimit() + " check " + filter.getCinemas()[0]);
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
         if(user != null)
@@ -143,30 +150,28 @@ public class HomeFragment extends Fragment {
                 });
         if(username != null && user != null) {
             DatabaseReference mUserRef = database.getReference().child("Users").child(username);
-            System.out.println("username " + username + " user " + user.getEmail());
+
                 mUserRef.addListenerForSingleValueEvent(
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 //Get map of users in datasnapshot
                                 if(dataSnapshot.getValue() != null) {
-                                    System.out.println("val " + dataSnapshot.getValue());
-                                    /*ArrayList<Integer> rated = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
+
+                                    ArrayList<Integer> rated = score.collectMovieIds((Map<String, Object>) dataSnapshot.getValue());
                                     ratedMovies.clear();
                                     for (int i = 0; i < rated.size(); i++) {
                                         ratedMovies.add(rated.get(i));
-                                    }*/
+                                    }
 
                                     if (gridView != null) {
                                         for (int i = 0; i < gridView.getChildCount(); i++) {
                                             View cell = gridView.getChildAt(i);
                                             int id = movies[i + gridView.getFirstVisiblePosition()].getId();
                                             for(int j = 0; j < ratedMovies.size(); j++) {
-
                                                 if (id == ratedMovies.get(j)){
                                                     ImageView checkmark = (ImageView) cell.findViewById(R.id.checkmark);
                                                     checkmark.setVisibility(View.VISIBLE);
-
                                                     ((Animatable) checkmark.getDrawable()).start();
                                                     break;
                                                 }
@@ -222,7 +227,7 @@ public class HomeFragment extends Fragment {
                 Log.e(TAG, "Exception caught: ", e);
             }
         }
-        System.out.println("filter " + filter.getCinemas()[0]);
+
         movies = SortMovies.sortTheater(movies, filter);
 
         Integer[] ids = new Integer[movies.length];

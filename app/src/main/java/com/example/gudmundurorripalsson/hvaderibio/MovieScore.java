@@ -1,7 +1,12 @@
 package com.example.gudmundurorripalsson.hvaderibio;
 
 /**
- * Created by notandi on 10.4.2018.
+ * Created by Ómar on 10.4.2018.
+ */
+
+/**
+ * Model Object klasi sem heldur utan um einkunn(score) sem notandi hefur gefið mynd með
+ * auðkennisnúmerið "id"
  */
 
 public class MovieScore {

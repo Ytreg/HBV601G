@@ -4,6 +4,10 @@ package com.example.gudmundurorripalsson.hvaderibio;
  * Created by Helgi on 31/03/2018.
  */
 
+/**
+ *  Geymir API lykil.
+ */
+
 public class YoutubeConfig {
 
     public YoutubeConfig() {

@@ -51,6 +51,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * Aðal Activity sem sækir upplýsingar um bíómyndir frá vefþjónustu og stýrir hvaða Fragments eru keyrð
+ * eftir hvaða takka í Bottom Navigation er ýtt á.
+ */
 
 public class MainActivity extends AppCompatActivity {
     private Movie m;
@@ -100,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         homeFragment.setFilter(settingsFragment.getFilter());
-                        System.out.println("filterino " + settingsFragment.getFilter().getCinemas()[0]);
                         setFragment(homeFragment);
                         return true;
                     case R.id.navigation_account:

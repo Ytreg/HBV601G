@@ -23,6 +23,12 @@ import org.json.JSONException;
 /**
  * Created by Ómar on 04/04/2018.
  */
+
+/**
+ * Einföld Fragment til að þess að gefa einkunn, notandi velur radiobutton frá 1 til 10 og staðfestir
+ * val sitt til að gefa mynd einkunn.
+ */
+
 public class RateFragment extends Fragment {
 
     private View mView;

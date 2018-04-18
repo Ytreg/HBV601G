@@ -21,6 +21,16 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
+/**
+ * Created by Ómar on 24/03/2018.
+ */
+
+/**
+ * UserFragment birtist þegar notandi velur "Account" í Bottom Navigation. Í UserFragment
+ * getur notandi stofnað aðgang, skráð sig inn á stofnaðan aðgang og skráð sig út af aðgangi.
+ * Gagnagrunnur fyrir aðganga er gerður með Firebase Authentication.
+ */
+
 public class UserFragment extends Fragment implements
         View.OnClickListener {
 
@@ -186,7 +196,6 @@ public class UserFragment extends Fragment implements
         if (i == R.id.loginButton) {
             String userName = email.getText().toString().trim();
             String userPassword = password.getText().toString().trim();
-            System.out.println("welcome: " + userName + " " + userPassword);
             if(viewState == "login") {
                 if(validateLogin()) {
                     signIn(userName, userPassword);
