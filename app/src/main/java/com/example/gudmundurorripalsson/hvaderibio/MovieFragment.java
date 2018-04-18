@@ -6,12 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.TransitionInflater;
@@ -280,8 +282,7 @@ public class MovieFragment extends Fragment {
             public void onClick(View view) {
                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-                //View customView = inflater.inflate(R.layout.showtimes, null);
-
+                int margin = 20;
 
                 View d = new View(getContext());
                 d = inflater.inflate(R.layout.showtimes, null);
@@ -294,7 +295,6 @@ public class MovieFragment extends Fragment {
                         JSONObject theater = showtimes.getJSONObject(i);
                         TextView theaterName = new TextView(getContext());
                         TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
-                        int margin = 20;
                         layoutParams.setMargins(margin, margin, margin, margin);
                         theaterName.setLayoutParams(layoutParams);
                         theaterName.setText(theater.getJSONObject("cinema").getString("name"));
@@ -308,7 +308,10 @@ public class MovieFragment extends Fragment {
                             Button schedule = new Button(getContext());
                             schedule.setText(schedules.getJSONObject(j).getString("time"));
                             addUrlToBtn(schedule, schedules.getJSONObject(j).getString("purchase_url"));
-                            schedule.setLayoutParams(new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            schedule.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.showtime_button_background));
+                            FlowLayout.LayoutParams scheduleLayout = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            scheduleLayout.setMargins(margin/2, margin/2, margin/2, margin/2);
+                            schedule.setLayoutParams(scheduleLayout);
                             flowLayout.addView(schedule);
                         }
                         TableRow.LayoutParams layoutParams1 = new TableRow.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -345,9 +348,6 @@ public class MovieFragment extends Fragment {
                 popupWindow.setOutsideTouchable(true);
                 scrollView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
                 popupWindow.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.CENTER, 0, 0);
-
-
-
 
                 getActivity().getWindow().getDecorView().setOnTouchListener(new View.OnTouchListener() {
                     @Override
@@ -399,7 +399,11 @@ public class MovieFragment extends Fragment {
         Picasso.with(getContext()).load(movie.getPoster()).into(imageView);
         titleView.setText(movie.getTitle());
         descrView.setText(movie.getDescr());
-        imdbRatingView.setText(movie.getImdb());
+        String imdb = "";
+        if (!movie.getImdb().equals("null")) {
+            imdb = movie.getImdb();
+        }
+        imdbRatingView.setText(imdb);
         //bioRatingView.setText(value);
         Picasso.with(getContext()).load(movie.getCert()).into(certView);
         List<String> directors = movie.getDirectors();
