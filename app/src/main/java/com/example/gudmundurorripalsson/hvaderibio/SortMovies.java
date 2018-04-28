@@ -37,7 +37,7 @@ public class SortMovies {
         for (int i = 0; i < movies.length; i++) {
             double imdb;
             if(movies[i].getImdb().equals("null"))
-                imdb = 0;
+                imdb = 10;
             else {
                 imdb = Double.parseDouble(movies[i].getImdb());
             }
